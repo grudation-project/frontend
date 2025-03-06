@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import Footer from '../Footer/Footer';
-import dash from '../../assets/images/dash.png';
-import { Services } from './services';
+import dash from '../../images/dash.png';
 
 export default function LandingPage() {
   return (
@@ -18,7 +17,7 @@ export default function LandingPage() {
         </p>
 
         {/* Navigation buttons */}
-        <div className="mt-6 flex flex-col md:flex-row items-center gap-4">
+        <div className="mt-6 flex flex-col md:flex-row items-center gap-4 my-8" >
           <Link
             className="px-6 py-2 rounded-lg text-white transition duration-300 text-lg"
             style={{ background: 'linear-gradient(90deg, #0B76C2, #13D6D6)' }}
@@ -40,7 +39,7 @@ export default function LandingPage() {
       </div>
 
       {/* Image between sections */}
-      <div className="relative flex justify-center mt-12 md:mt-20">
+      <div className="relative flex justify-center ">
         <img
           src={dash}
           className="w-11/12 sm:w-3/4 md:w-1/2 lg:w-2/5 mx-auto absolute -top-20 md:-top-40 shadow-lg rounded-lg"
@@ -56,7 +55,36 @@ export default function LandingPage() {
 
           {/* Service cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-12 py-8">
-            {Services.map((item, index) => (
+            {[
+              {
+                icon: 'fa-ticket',
+                title: 'Submit A Ticket',
+                color: 'text-blue-500',
+                description:
+                  'You can submit a ticket from this home page or dashboard after login. If you don’t have an account, you can create one from this link.',
+              },
+              {
+                icon: 'fa-message',
+                title: 'Instant Talk with Agent',
+                color: 'text-green-500',
+                description:
+                  'You can discuss with an agent directly if your ticket is delayed in getting a response.',
+              },
+              {
+                icon: 'fa-envelope',
+                title: 'Get Notified Instantly',
+                color: 'text-yellow-500',
+                description:
+                  'You will be notified when the ticket status changes, or you can comment and discuss with the agent for a particular ticket.',
+              },
+              {
+                icon: 'fa-check',
+                title: 'Close Resolved Tickets',
+                color: 'text-red-500',
+                description:
+                  'After resolving a ticket, the agent will close it. You may receive a notification upon closure.',
+              },
+            ].map((item, index) => (
               <div
                 key={index}
                 className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 text-center"
