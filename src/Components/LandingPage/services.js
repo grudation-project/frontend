@@ -1,4 +1,4 @@
-export const Services = [
+export const servicesCards = [
     {
       icon: 'fa-ticket',
       title: 'Submit A Ticket',
