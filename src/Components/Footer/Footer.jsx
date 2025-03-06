@@ -1,3 +1,5 @@
+import { Link as ScrollLink } from 'react-scroll';
+import { Link } from 'react-router-dom';
 const Footer = () => {
   return (
     <footer className="bg-[#0a0f1d] text-white py-8">
@@ -16,16 +18,16 @@ const Footer = () => {
           {/* Center Section - Links */}
           <div className="flex flex-col md:flex-row md:justify-around">
             <div>
-              <h3 className="font-semibold">Home</h3>
               <ul className="mt-2 space-y-1 text-gray-400 text-sm">
-                <li><a href="#" className="hover:text-white transition">Services</a></li>
+                <li><ScrollLink to="home" smooth={true} className="hover:text-white transition">Home</ScrollLink></li>
+                <li><ScrollLink to="services" smooth={true} className="hover:text-white transition">Services</ScrollLink></li>
                 <li><a href="#" className="hover:text-white transition">About Us</a></li>
               </ul>
             </div>
             <div className="mt-4 md:mt-0">
-              <h3 className="font-semibold">Login</h3>
               <ul className="mt-2 space-y-1 text-gray-400 text-sm">
-                <li><a href="#" className="hover:text-white transition">Register</a></li>
+                <li><Link to="/auth/login" className="hover:text-white transition">Login</Link></li>
+                <li><Link to={"/auth/register"} className="hover:text-white transition">Register</Link></li>
               </ul>
             </div>
           </div>
