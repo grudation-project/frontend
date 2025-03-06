@@ -1,5 +1,6 @@
 // import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Link as ScrollLink } from 'react-scroll';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import logo from '../../images/logo bg-black.png';
 import { useState } from 'react';
@@ -27,8 +28,8 @@ export default function NavbarLanding() {
 
         {/* Navigation Links */}
         <div className={`md:flex md:items-center md:space-x-8 absolute md:relative top-16 md:top-0 left-0 w-full md:w-auto bg-[#0b0f1a] md:bg-transparent p-5 md:p-0 transition-all duration-300 ${menuOpen ? 'block' : 'hidden'}`}>
-          <Link to="/" className="block md:inline text-white text-lg hover:text-gray-400 transition py-2 md:py-0 md:px-4">Home</Link>
-          <Link to="/services" className="block md:inline text-white text-lg hover:text-gray-400 transition py-2 md:py-0 md:px-4">Services</Link>
+          <ScrollLink to="home" smooth={true} className="block md:inline text-white text-lg hover:text-gray-400 transition py-2 md:py-0 md:px-4">Home</ScrollLink>
+          <ScrollLink to="services" smooth={true} className="block md:inline text-white text-lg hover:text-gray-400 transition py-2 md:py-0 md:px-4">Services</ScrollLink >
           <Link to="/about" className="block md:inline text-white text-lg hover:text-gray-400 transition py-2 md:py-0 md:px-4">About us</Link>
 
           {/* Sign In Button inside menu for small screens */}

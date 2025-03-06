@@ -3,8 +3,8 @@ const ServicesSection = () => {
     return (
         <>
             {/* Services section */}
-            <div className="pt-40 sm:pt-72 bg-gray-100 px-4">
-                <div className="container mx-auto px-10 text-center">
+            <div className="pt-40 sm:pt-72 bg-gray-100 px-4" >
+                <div className="container mx-auto px-10 text-center"id="services">
                     <h2 className="text-2xl md:text-3xl font-semibold mt-12">
                         Looking For <span className="text-blue-600 font-bold">Help?</span>
                     </h2>
@@ -13,7 +13,7 @@ const ServicesSection = () => {
                     </p>
 
                     {/* Service cards */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-12 py-8">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-12 py-8" >
                         {servicesCards.map((item, index) => (
                             <div
                                 key={index}

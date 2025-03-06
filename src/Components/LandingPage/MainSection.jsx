@@ -8,7 +8,8 @@ const MainSection = () => {
         {/*  Main section  */}
       <div
         className="relative text-white py-0 pb-100 min-h-screen flex flex-col justify-center items-center text-center px-4 overflow"
-        style={{ background: 'linear-gradient(to bottom,#00001c, #000046)' }} // Moves the whole section up
+        style={{ background: 'linear-gradient(to bottom,#00001c, #000046)' }}
+        id='home' // Moves the whole section up
       >
         {/* Hexagonal background effect */}
         <div>
