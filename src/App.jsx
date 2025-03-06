@@ -1,9 +1,12 @@
 import './App.css';
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom';
-import Login from './Components/Login/Login';
 import LandingPage from './pages/landing/LandingPage';
-import Register from './Components/Register/Register';
 import RootLayout from './Components/RootLayout';
+import LoginPage from './pages/auth/LoginPage';
+import RegisterPage from './pages/auth/RegisterPage';
+import ResetPassword from './pages/auth/ResetPassword';
+import CheckEmail from './pages/auth/CheckEmail';
+import NewPassword from './pages/auth/NewPassword';
 
 
 function App() {
@@ -11,8 +14,11 @@ function App() {
     <Route path="/" element={<RootLayout />}>
       <Route index element={<LandingPage />} />
       <Route path="auth" >
-        <Route path="login" element={<Login />} />
-        <Route path="register" element={<Register />} />
+        <Route path="login" element={<LoginPage />} />
+        <Route path="register" element={<RegisterPage />} />
+        <Route path="reset-password" element={<ResetPassword />} />
+        <Route path="check-email" element={<CheckEmail />} />
+        <Route path="new-password" element={<NewPassword />} />
       </Route>
     </Route>
   ))
