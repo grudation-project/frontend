@@ -1,7 +1,7 @@
 // import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaBars, FaTimes } from 'react-icons/fa';
-import logo from '../../../public/images/logo bg-black.png';
+import logo from '../../images/logo bg-black.png';
 import { useState } from 'react';
 
 export default function NavbarLanding() {

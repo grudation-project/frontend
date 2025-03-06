@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
-import hexagonBg from '../../../public/images/hex-pattern.png';
-import dash from '../../../public/images/dash.png';
+import hexagonBg from '../../images/hex-pattern.png';
+import dash from '../../images/dash.png';
 
 const MainSection = () => {
   return (
