@@ -66,7 +66,7 @@ export default function Home() {
       </li>
       <li>
       <Link 
-        to="/login" 
+        to="/auth/login" 
         className={`flex items-center p-2 rounded-lg group ${
           activePage === "logout" ? "bg-[#051754] text-white" : "hover:bg-[#051754]"
         }`}

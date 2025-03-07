@@ -8,6 +8,7 @@ import ResetPassword from './pages/auth/ResetPassword';
 import CheckEmail from './pages/auth/CheckEmail';
 import NewPassword from './pages/auth/NewPassword';
 import OtpVerification from './pages/auth/OtpVerification';
+import Home from './Components/Home/Home';
 
 
 function App() {
@@ -21,7 +22,8 @@ function App() {
         <Route path="check-email" element={<CheckEmail />} />
         <Route path="new-password" element={<NewPassword />} />
         <Route path="verify-user" element={<OtpVerification />} />
-      </Route>
+      </Route> 
+      <Route path='dashboard' element={<Home/>} />
     </Route>
   ))
   return <RouterProvider router={router} />

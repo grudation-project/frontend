@@ -1,8 +1,12 @@
 import { useState } from "react";
+import Cookies from "js-cookie";
 import { useForm } from "react-hook-form";
+import { useLoginMutation } from "../../redux/feature/auth/authApiSlice";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const schema = z.object({
   email: z.string().email("Invalid email format"),
@@ -11,6 +15,8 @@ const schema = z.object({
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
+  const [login, { isLoading }] = useLoginMutation();
 
   const {
     register,
@@ -24,9 +30,30 @@ export default function Login() {
     },
   });
 
-  function save(data) {
-    console.log("Form Submitted:", data);
-  }
+  const save = async (data) => {
+    try {
+      const response = await login({
+        email: data.email,
+        password: data.pass,
+      }).unwrap();
+
+      toast.success("Login successful");
+
+      // Save token to localStorage or Redux if needed
+      localStorage.setItem("token", response.data.token);
+      Cookies.set("accessToken", response.data.token);
+      setTimeout(() => {
+
+        navigate("/dashboard");
+      }, 1500);
+    } catch (error) {
+      if (error.data?.message) {
+        toast.error(error.data.message);
+      } else {
+        toast.error("Login failed");
+      }
+    }
+  };
 
   return (
     <div className="w-full h-screen flex flex-col bg-gray-100">
@@ -39,7 +66,7 @@ export default function Login() {
           </p>
         </div>
 
-        {/* Right Side - Login Form (Wider) */}
+        {/* Right Side - Login Form */}
         <div className="md:w-3/5 flex flex-col justify-center items-center bg-white px-6 md:px-12 py-12 w-full">
           <div className="w-full max-w-md">
             <h2 className="text-2xl md:text-3xl font-extrabold text-gray-800 text-center mb-4">Sign In</h2>
@@ -100,8 +127,9 @@ export default function Login() {
               <button
                 type="submit"
                 className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition duration-300 text-lg"
+                disabled={isLoading}
               >
-                Sign In
+                {isLoading ? "Signing In..." : "Sign In"}
               </button>
             </form>
 
@@ -115,6 +143,7 @@ export default function Login() {
           </div>
         </div>
       </div>
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 }
