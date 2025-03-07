@@ -7,6 +7,7 @@ import RegisterPage from './pages/auth/RegisterPage';
 import ResetPassword from './pages/auth/ResetPassword';
 import CheckEmail from './pages/auth/CheckEmail';
 import NewPassword from './pages/auth/NewPassword';
+import OtpVerification from './pages/auth/OtpVerification';
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
         <Route path="reset-password" element={<ResetPassword />} />
         <Route path="check-email" element={<CheckEmail />} />
         <Route path="new-password" element={<NewPassword />} />
+        <Route path="verify-user" element={<OtpVerification />} />
       </Route>
     </Route>
   ))

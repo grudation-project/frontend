@@ -8,7 +8,25 @@ export const authApiSlice = apiSlice.injectEndpoints({
 				body: { ...credentials },
 			}),
 		}),
+		verifyUser: builder.mutation({
+			query: (credentials) => ({
+				url: "/auth/verify_user",
+				method: "POST",
+				body: { ...credentials },
+			}),
+		}),
+		verifyUserResend: builder.mutation({
+			query: (credentials) => ({
+				url: "/auth/verify_user/resend",
+				method: "POST",
+				body: { ...credentials },
+			}),
+		}),
 	}),
 });
 
-export const { useRegisterApiMutation } = authApiSlice;
+export const {
+	useRegisterApiMutation,
+	useVerifyUserMutation,
+	useVerifyUserResendMutation,
+} = authApiSlice;

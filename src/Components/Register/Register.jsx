@@ -20,7 +20,7 @@ export default function Register() {
     password: "",
     password_confirmation: ""
   });
-  const [registerApi] = useRegisterApiMutation();
+  const [registerApi,{isLoading}] = useRegisterApiMutation();
   const {
     register,
     handleSubmit,
@@ -47,7 +47,7 @@ export default function Register() {
       toast.success("Registration successful");
       reset();
       setTimeout(() => {
-        navigate("/auth/check-email");
+        navigate("/auth/verify-user",{state:{email:data.email}});
       }, 3000); // 3-second delay 
     } catch (error) {
       if (error.data?.data?.email) {
@@ -153,6 +153,7 @@ export default function Register() {
 
               {/* Submit Button */}
               <button
+                disabled={isLoading}
                 type="submit"
                 className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition duration-300 text-lg"
               >
