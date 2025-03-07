@@ -1,34 +1,15 @@
 import { apiSlice } from "../../app/api/apiSlice";
+import { registerApi } from "./register/registerApi";
+import { verifyUserApi } from "./register/verifyUserApi";
+import { verifyUserResendApi } from "./register/verifyUserResend";
+import { loginApi } from "./login/LoginApi";
+
 export const authApiSlice = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
-		registerApi: builder.mutation({
-			query: (credentials) => ({
-				url: "/auth/register/user",
-				method: "POST",
-				body: { ...credentials },
-			}),
-		}),
-		verifyUser: builder.mutation({
-			query: (credentials) => ({
-				url: "/auth/verify_user",
-				method: "POST",
-				body: { ...credentials },
-			}),
-		}),
-		verifyUserResend: builder.mutation({
-			query: (credentials) => ({
-				url: "/auth/verify_user/resend",
-				method: "POST",
-				body: { ...credentials },
-			}),
-		}),
-		login: builder.mutation({
-			query: (credentials) => ({
-				url: "/auth/login",
-				method: "POST",
-				body: { ...credentials },
-			}),
-		})
+		registerApi: registerApi(builder),
+		verifyUser: verifyUserApi(builder),
+		verifyUserResend: verifyUserResendApi(builder),
+		login: loginApi(builder),
 	}),
 });
 
@@ -36,5 +17,5 @@ export const {
 	useRegisterApiMutation,
 	useVerifyUserMutation,
 	useVerifyUserResendMutation,
-	useLoginMutation
+	useLoginMutation,
 } = authApiSlice;

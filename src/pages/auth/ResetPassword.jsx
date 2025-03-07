@@ -34,7 +34,6 @@ const ResetPassword = () => {
                     <p className="text-lg text-gray-600 mb-6">
                         We will send an email with instructions to reset your password.
                     </p>
-
                     <form onSubmit={handleSubmit} className="w-full">
                         <div className="text-left">
                             <label className="block text-base font-semibold text-gray-700 mb-1">Email</label>
