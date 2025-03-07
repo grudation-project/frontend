@@ -1,29 +1,30 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Link } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
+import { useRegisterApiMutation } from "../../redux/feature/auth/authApiSlice";
+import schema from "./validation";
+import HelloSection from "./HelloSection";
+import SignInLink from "./SignInLink";
 
-const schema = z
-  .object({
-    name: z.string().min(3, "Name must be at least 3 characters"),
-    email: z.string().email("Invalid email format"),
-    pass: z.string().min(6, "Password must be at least 6 characters"),
-    confirmPass: z.string().min(6, "Confirm Password must be at least 6 characters"),
-  })
-  .refine((data) => data.pass === data.confirmPass, {
-    message: "Passwords must match",
-    path: ["confirmPass"],
-  });
 
 export default function Register() {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [userInputs, setUserInputs] = useState({
+    name: "",
+    email: "",
+    password: "",
+    password_confirmation: ""
+  });
+  const [registerApi, { isLoading, isSuccess, error, isError }] = useRegisterApiMutation();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset
   } = useForm({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -34,9 +35,21 @@ export default function Register() {
     },
   });
 
-  function save(data) {
-    console.log("Form Submitted:", data);
-  }
+
+  const onSubmit = async (data) => {
+    try {
+      await registerApi({
+        name: data.name,
+        email: data.email,
+        password: data.pass,
+        password_confirmation: data.confirmPass,
+      }).unwrap();
+      reset();
+      navigate("/auth/check-email");
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div className="w-full h-screen flex flex-col bg-gray-200">
@@ -50,12 +63,14 @@ export default function Register() {
               <span className="text-blue-600 font-semibold">Ticketing System</span>.
             </p>
 
-            <form onSubmit={handleSubmit(save)} className="space-y-4">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               {/* Name Input */}
               <div>
                 <label className="block text-sm font-semibold text-gray-700">Name</label>
                 <input
                   {...register("name")}
+                  value={userInputs.name}
+                  onChange={(e) => setUserInputs(prev => { return { ...prev, name: e.target.value } })}
                   type="text"
                   className="mt-2 w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none text-lg"
                   placeholder="Enter your name"
@@ -63,13 +78,15 @@ export default function Register() {
                 {errors.name && <small className="text-red-500">{errors.name.message}</small>}
               </div>
 
-              {/* Email Input with Icon */}
+              {/* Email Input */}
               <div>
                 <label className="block text-sm font-semibold text-gray-700">Email</label>
                 <div className="relative mt-2">
                   <input
                     {...register("email")}
                     type="email"
+                    value={userInputs.email}
+                    onChange={(e) => setUserInputs(prev => { return { ...prev, email: e.target.value } })}
                     className="w-full px-4 pr-12 pl-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none text-lg"
                     placeholder="Enter your email"
                   />
@@ -78,12 +95,14 @@ export default function Register() {
                 {errors.email && <small className="text-red-500">{errors.email.message}</small>}
               </div>
 
-              {/* Password Input with Icons */}
-              <div> 
+              {/* Password Input */}
+              <div>
                 <label className="block text-sm font-semibold text-gray-700">Password</label>
                 <div className="relative mt-2">
                   <input
                     {...register("pass")}
+                    value={userInputs.password}
+                    onChange={(e) => setUserInputs(prev => { return { ...prev, password: e.target.value } })}
                     type={showPassword ? "text" : "password"}
                     className="w-full px-4 pr-12 pl-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none text-lg"
                     placeholder="Enter your password"
@@ -100,12 +119,14 @@ export default function Register() {
                 {errors.pass && <small className="text-red-500">{errors.pass.message}</small>}
               </div>
 
-              {/* Confirm Password Input with Icons */}
+              {/* Confirm Password  */}
               <div>
                 <label className="block text-sm font-semibold text-gray-700">Confirm Password</label>
                 <div className="relative mt-2">
                   <input
                     {...register("confirmPass")}
+                    value={userInputs.password_confirmation}
+                    onChange={(e) => setUserInputs(prev => { return { ...prev, password_confirmation: e.target.value } })}
                     type={showConfirmPassword ? "text" : "password"}
                     className="w-full px-4 pr-12 pl-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none text-lg"
                     placeholder="Confirm your password"
@@ -130,24 +151,10 @@ export default function Register() {
                 Sign Up
               </button>
             </form>
-
-            {/* Sign In Link */}
-            <div className="mt-4 text-center">
-              <span className="text-gray-600">Already have an account? </span>
-              <Link to="/auth/login" className="text-blue-600 font-semibold hover:underline">
-                Sign In
-              </Link>
-            </div>
+            <SignInLink />
           </div>
         </div>
-
-        {/* Right Side - Welcome Section */}
-        <div className="md:w-5/12 flex flex-col items-center justify-center bg-[#03091E] p-8 md:p-12 text-center text-white">
-          <h1 className="text-3xl md:text-4xl font-extrabold mb-4">Hello Friend!</h1>
-          <p className="text-lg leading-relaxed">
-            To keep connected with us, please <br /> sign in with your personal info.
-          </p>
-        </div>
+        <HelloSection />
       </div>
     </div>
   );
