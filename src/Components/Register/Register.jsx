@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useRegisterApiMutation } from "../../redux/feature/auth/authApiSlice";
 import schema from "./validation";
 import HelloSection from "./HelloSection";
 import SignInLink from "./SignInLink";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 
 export default function Register() {
@@ -18,8 +20,7 @@ export default function Register() {
     password: "",
     password_confirmation: ""
   });
-  const [registerApi, { isLoading, isSuccess, error, isError }] = useRegisterApiMutation();
-
+  const [registerApi] = useRegisterApiMutation();
   const {
     register,
     handleSubmit,
@@ -35,7 +36,6 @@ export default function Register() {
     },
   });
 
-
   const onSubmit = async (data) => {
     try {
       await registerApi({
@@ -44,10 +44,18 @@ export default function Register() {
         password: data.pass,
         password_confirmation: data.confirmPass,
       }).unwrap();
+      toast.success("Registration successful");
       reset();
-      navigate("/auth/check-email");
+      setTimeout(() => {
+        navigate("/auth/check-email");
+      }, 3000); // 3-second delay 
     } catch (error) {
-      console.error(error);
+      if (error.data?.data?.email) {
+        toast.error(error.data.data.email);
+      }
+      else {
+        toast.error("Registration failed");
+      }
     }
   };
 
@@ -152,6 +160,7 @@ export default function Register() {
               </button>
             </form>
             <SignInLink />
+            <ToastContainer position="top-right" autoClose={3000} />
           </div>
         </div>
         <HelloSection />

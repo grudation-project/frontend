@@ -1,11 +1,12 @@
 import { Link } from 'react-router-dom';
 import hexagonBg from '../../images/hex-pattern.png';
 import dash from '../../images/dash.png';
+import AnimatedText from './AnimatedText';
 
 const MainSection = () => {
   return (
     <>
-        {/*  Main section  */}
+      {/*  Main section  */}
       <div
         className="relative text-white py-0 pb-100 min-h-screen flex flex-col justify-center items-center text-center px-4 overflow"
         style={{ background: 'linear-gradient(to bottom,#00001c, #000046)' }}
@@ -19,10 +20,9 @@ const MainSection = () => {
 
         <h1 className="text-4xl md:text-5xl font-extrabold mt-0 md:mt-16 leading-tight relative z-10">
           Turn Queries into <br className="hidden md:block" />
-          <span className="text-white">Resolutions</span>
-          <span className="text-cyan-400 font-medium"> with ease</span>
+          Resolutions
+          <AnimatedText/>
         </h1>
-
         <p className="text-lg md:text-xl mt-4 max-w-2xl text-gray-300 relative z-10">
           Effortlessly manage customer queries and deliver quick solutions <br className="hidden md:block" />
           with our intuitive support ticketing system.
@@ -51,7 +51,7 @@ const MainSection = () => {
           <img src={dash} className="mx-auto shadow-2xl rounded-lg" alt="Dashboard Preview" />
         </div>
       </div>
-      
+
     </>
   )
 }
