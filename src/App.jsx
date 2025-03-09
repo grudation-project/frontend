@@ -8,7 +8,7 @@ import ResetPassword from './pages/auth/ResetPassword';
 import CheckEmail from './pages/auth/CheckEmail';
 import NewPassword from './pages/auth/NewPassword';
 import OtpVerification from './pages/auth/OtpVerification';
-import Home from './Components/Home/Home';
+import Home from './pages/home/Home';
 
 
 function App() {
@@ -18,13 +18,13 @@ function App() {
       <Route path="auth" >
         <Route path="login" element={<LoginPage />} />
         <Route path="register" element={<RegisterPage />} />
-        <Route path="reset-password" element={<ResetPassword />} />
+        <Route path="forget-password" element={<ResetPassword />} />
         <Route path="check-email" element={<CheckEmail />} />
         <Route path="new-password" element={<NewPassword />} />
         <Route path="verify-user" element={<OtpVerification />} />
         <Route path="reset-pass-otp" element={<OtpVerification />} />
-      </Route> 
-      <Route path='dashboard' element={<Home/>} />
+      </Route>
+      <Route path='dashboard' element={<Home />} />
     </Route>
   ))
   return <RouterProvider router={router} />

@@ -1,20 +1,56 @@
 import { useState } from "react";
 import LoginHeader from "../../Components/Navbar/LoginHeader";
+import { useResetPasswordMutation } from "../../redux/feature/auth/authApiSlice";
+import { useNavigate, useLocation } from "react-router-dom";
+import { toast, ToastContainer } from 'react-toastify';
 
 const NewPassword = () => {
+    // State for password fields
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
-    const handleSubmit = (e) => {
+    
+    // Redux mutation hook
+    const [resetPassword, { isLoading }] = useResetPasswordMutation();
+    
+    // Get state from location
+    const { state } = useLocation();
+    console.log(state);
+    const navigate = useNavigate();
+    // Get OTP safely
+    const otpCode = state?.otp || "";
+    
+    // Handle form submission
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if (password !== confirmPassword) {
-            alert("Passwords do not match!");
+
+        // Validate input fields
+        if (!state?.email) {
+            toast.error("Invalid request. Please restart the process.");
             return;
         }
-        // Submit form logic here
-        console.log("New password set:", password);
+
+        if (password !== confirmPassword) {
+            toast.error("Passwords do not match!");
+            return;
+        }
+
+        try {
+            // Call API to reset password
+            await resetPassword({
+                handle: state.email,
+                password,
+                password_confirmation: confirmPassword,
+                code: otpCode
+            }).unwrap();
+
+            toast.success("Password reset successfully!");
+            setTimeout(() => navigate("/auth/login"), 1000);
+        } catch (error) {
+            const errorMessage = error?.data?.message || "An error occurred. Please try again.";
+            toast.error(errorMessage);
+        }
     };
 
     return (
@@ -81,15 +117,17 @@ const NewPassword = () => {
                         {/* Submit Button */}
                         <button
                             type="submit"
-                            className="w-full mt-6 bg-blue-400 hover:bg-blue-500 text-white font-semibold py-3 px-4 rounded-lg transition text-lg"
+                            disabled={isLoading}
+                            className={`w-full mt-6 ${isLoading ? "bg-gray-300 cursor-not-allowed" : "bg-blue-400 hover:bg-blue-500"} text-white font-semibold py-3 px-4 rounded-lg transition text-lg`}
                         >
-                            Sign In
+                            {isLoading ? "Processing..." : "Sign In"}
                         </button>
                     </form>
+                    <ToastContainer position="top-center" autoClose={1000} />
                 </div>
             </div>
         </>
     );
-}
+};
 
 export default NewPassword;

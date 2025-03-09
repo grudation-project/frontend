@@ -71,7 +71,7 @@ const OtpVerification = () => {
       } else if (type === "reset") {
         await validatePassword(verificationData).unwrap();
         toast.success("OTP Verified ✅ Redirecting...");
-        setTimeout(() => navigate("/auth/new-password", { state: { email } }), 1500);
+        setTimeout(() => navigate("/auth/new-password", { state: { email:email ,otp:otp.join("") } }), 1500);
       }
     } catch (error) {
       const errorMessage = error?.data?.data?.code === "Invalid verification code"

@@ -118,7 +118,7 @@ export default function Login() {
                 <label className="flex items-center">
                   <input type="checkbox" className="mr-2" /> Remember me
                 </label>
-                <Link to="/auth/reset-password" className="text-blue-500 hover:underline">
+                <Link to="/auth/forget-password" className="text-blue-500 hover:underline">
                   Forgot Password?
                 </Link>
               </div>
