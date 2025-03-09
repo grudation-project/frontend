@@ -21,7 +21,7 @@ const Footer = () => {
               <ul className="mt-2 space-y-1 text-gray-400 text-sm">
                 <li><ScrollLink to="home" smooth={true} className="hover:text-white transition">Home</ScrollLink></li>
                 <li><ScrollLink to="services" smooth={true} className="hover:text-white transition">Services</ScrollLink></li>
-                <li><a href="#" className="hover:text-white transition">About Us</a></li>
+                <li><Link to={"/about"} className="hover:text-white transition">About Us</Link></li>
               </ul>
             </div>
             <div className="mt-4 md:mt-0">

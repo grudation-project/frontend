@@ -9,7 +9,8 @@ import CheckEmail from './pages/auth/CheckEmail';
 import NewPassword from './pages/auth/NewPassword';
 import OtpVerification from './pages/auth/OtpVerification';
 import Home from './pages/home/Home';
-import NotFoundPage from './pages/NotFoundPage';
+import NotFoundPage from './pages/utils/NotFoundPage';
+import AboutPage from './pages/utils/About';
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
         <Route path="reset-pass-otp" element={<OtpVerification />} />
       </Route>
       <Route path='dashboard' element={<Home />} />
+      <Route path="/about" element={<AboutPage />} />
       <Route path="*" element={<NotFoundPage />} />
 
     </Route>

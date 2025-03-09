@@ -17,14 +17,12 @@ const NotFoundPage = () => {
         </svg>
       </div>
 
-      {/* Title */}
       <h1 className="text-5xl font-extrabold text-blue-500">404</h1>
       <p className="text-xl text-gray-700 mt-2">Oops! Page Not Found</p>
       <p className="text-gray-500 mt-2 text-center max-w-md">
         The page you&apos;re looking for doesn&apos;t exist or has been moved.
       </p>
 
-      {/* Go Home Button */}
       <Link
         to="/"
         className="mt-6 bg-blue-400 hover:bg-blue-500 text-white font-semibold py-3 px-6 rounded-lg transition-all shadow-lg"
