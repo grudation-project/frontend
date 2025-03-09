@@ -47,7 +47,7 @@ export default function Register() {
       toast.success("Registration successful");
       reset();
       setTimeout(() => {
-        navigate("/auth/verify-user",{state:{email:data.email}});
+        navigate("/auth/verify-user",{state:{email:data.email,type:"verify"}});
       }, 3000); // 3-second delay 
     } catch (error) {
       if (error.data?.data?.email) {

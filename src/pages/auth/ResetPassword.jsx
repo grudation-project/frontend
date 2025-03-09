@@ -1,11 +1,16 @@
 import { useState } from "react";
 import LoginHeader from "../../Components/Navbar/LoginHeader";
+import { useForgetPasswordMutation } from "../../redux/feature/auth/authApiSlice";
+import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 
 const ResetPassword = () => {
     const [email, setEmail] = useState("");
     const [error, setError] = useState("");
+    const navigate = useNavigate();
+    const [forgetPassword] = useForgetPasswordMutation();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setError("");
 
@@ -18,10 +23,17 @@ const ResetPassword = () => {
             setError("Please enter a valid email address.");
             return;
         }
+        try {
+            await forgetPassword({ handle: email }).unwrap();
+            toast.success("otp sent to your email");
+            setTimeout(() => {
+                navigate("/auth/reset-pass-otp", { state: { email :email , type: "reset" } });
+            }, 1500)
+        } catch (error) {
+            setError(error?.data?.data?.user || "Reset password failed.");
+        }
 
-        // Handle form submission logic (e.g., API call)
-        console.log("Password reset email sent to:", email);
-        alert("If this email is registered, you will receive a reset link.");
+
     };
 
     return (
@@ -58,6 +70,7 @@ const ResetPassword = () => {
                             Send Email
                         </button>
                     </form>
+                    <ToastContainer autoClose={1500} position="top-center" />
                 </div>
             </div>
         </>

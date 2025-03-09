@@ -22,6 +22,7 @@ function App() {
         <Route path="check-email" element={<CheckEmail />} />
         <Route path="new-password" element={<NewPassword />} />
         <Route path="verify-user" element={<OtpVerification />} />
+        <Route path="reset-pass-otp" element={<OtpVerification />} />
       </Route> 
       <Route path='dashboard' element={<Home/>} />
     </Route>

@@ -1,43 +1,51 @@
 import { useState, useEffect, useRef } from "react";
-import LoginHeader from "../../Components/Navbar/LoginHeader";
-import { useVerifyUserMutation, useVerifyUserResendMutation } from "../../redux/feature/auth/authApiSlice";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
+
+import LoginHeader from "../../Components/Navbar/LoginHeader";
+import {
+  useVerifyUserMutation,
+  useVerifyUserResendMutation,
+  useValidatePasswordMutation,
+} from "../../redux/feature/auth/authApiSlice";
 
 const OtpVerification = () => {
   const [otp, setOtp] = useState(["", "", "", ""]);
   const inputRefs = useRef([]);
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { email } = location.state || {};
-
   const [timeLeft, setTimeLeft] = useState(60);
   const [canResend, setCanResend] = useState(false);
-  const [verifyUser, { isLoading }] = useVerifyUserMutation();
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { email, type } = location.state || {};
+
+  const [verifyUser, { isLoading: isVerifying }] = useVerifyUserMutation();
   const [verifyUserResend] = useVerifyUserResendMutation();
+  const [validatePassword, { isLoading: isResetting }] = useValidatePasswordMutation();
 
-  // Handle OTP input changes
-  const handleChange = (index, value) => {
+  // Handle OTP input change
+  const handleInputChange = (index, value) => {
     if (/^\d*$/.test(value) && value.length <= 1) {
-      const newOtp = [...otp];
-      newOtp[index] = value;
-      setOtp(newOtp);
+      setOtp((prevOtp) => {
+        const newOtp = [...prevOtp];
+        newOtp[index] = value;
+        return newOtp;
+      });
 
-      // Move to next input
-      if (value && index < 3) {
+      if (value && index < otp.length - 1) {
         inputRefs.current[index + 1]?.focus();
       }
     }
   };
 
-  // Handle backspace
+  // Handle backspace key press
   const handleKeyDown = (index, e) => {
     if (e.key === "Backspace" && !otp[index] && index > 0) {
       inputRefs.current[index - 1]?.focus();
     }
   };
 
-  // Countdown Timer for Resend OTP
+  // Countdown timer for resend OTP
   useEffect(() => {
     if (timeLeft > 0) {
       const timer = setTimeout(() => setTimeLeft((prev) => prev - 1), 1000);
@@ -55,11 +63,21 @@ const OtpVerification = () => {
     }
 
     try {
-      await verifyUser({ handle: email, code: otp.join("") });
-      toast.success("Verification successful 🎉");
-      setTimeout(() => navigate("/auth/login"), 1500);
+      const verificationData = { handle: email, code: otp.join("") };
+      if (type === "verify") {
+        await verifyUser(verificationData).unwrap();
+        toast.success("Verification successful 🎉");
+        setTimeout(() => navigate("/auth/login"), 1500);
+      } else if (type === "reset") {
+        await validatePassword(verificationData).unwrap();
+        toast.success("OTP Verified ✅ Redirecting...");
+        setTimeout(() => navigate("/auth/new-password", { state: { email } }), 1500);
+      }
     } catch (error) {
-      toast.error(error?.data?.message || "Verification failed ❌");
+      const errorMessage = error?.data?.data?.code === "Invalid verification code"
+        ? "Invalid OTP! Please try again ❌"
+        : error?.data?.message || "Verification failed ❌";
+      toast.error(errorMessage);
     }
   };
 
@@ -67,13 +85,13 @@ const OtpVerification = () => {
   const handleResendOtp = async () => {
     setTimeLeft(60);
     setCanResend(false);
+
     try {
       await verifyUserResend({ handle: email });
       toast.info("New OTP sent to your email 📩");
     } catch (error) {
       toast.error(error?.data?.message || "Resend OTP failed ❌");
     }
-
   };
 
   return (
@@ -87,9 +105,11 @@ const OtpVerification = () => {
           </div>
 
           {/* Title */}
-          <h2 className="text-3xl font-extrabold text-black mb-2">Enter OTP Code</h2>
+          <h2 className="text-3xl font-extrabold text-black mb-2">
+            {type === "verify" ? "Enter OTP Code" : "Reset Password OTP"}
+          </h2>
           <p className="text-lg text-gray-600 mb-6">
-            We have sent a 4-digit OTP to <strong>{email}</strong>. Enter it below to verify.
+            We have sent a 4-digit OTP to <strong>{email}</strong>. Enter it below to continue.
           </p>
 
           {/* OTP Input Fields */}
@@ -99,11 +119,12 @@ const OtpVerification = () => {
                 key={index}
                 type="text"
                 value={digit}
-                onChange={(e) => handleChange(index, e.target.value)}
+                onChange={(e) => handleInputChange(index, e.target.value)}
                 onKeyDown={(e) => handleKeyDown(index, e)}
                 maxLength="1"
                 ref={(el) => (inputRefs.current[index] = el)}
                 className="w-12 h-12 text-center text-xl font-bold border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
+                aria-label={`OTP Digit ${index + 1}`}
               />
             ))}
           </div>
@@ -111,13 +132,14 @@ const OtpVerification = () => {
           {/* Verify Button */}
           <button
             onClick={handleVerify}
-            disabled={otp.some((digit) => digit === "") || isLoading}
-            className={`w-full font-bold py-3 px-4 rounded-lg transition text-lg mb-4 ${otp.some((digit) => digit === "") || isLoading
-              ? "bg-gray-400 cursor-not-allowed"
-              : "bg-blue-900 hover:bg-blue-800 text-white"
-              }`}
+            disabled={otp.some((digit) => digit === "") || isVerifying || isResetting}
+            className={`w-full font-bold py-3 px-4 rounded-lg transition text-lg mb-4 ${
+              otp.some((digit) => digit === "") || isVerifying || isResetting
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-blue-900 hover:bg-blue-800 text-white"
+            }`}
           >
-            {isLoading ? "Verifying..." : "Verify OTP"}
+            {isVerifying || isResetting ? "Verifying..." : "Verify OTP"}
           </button>
 
           {/* Resend OTP */}
