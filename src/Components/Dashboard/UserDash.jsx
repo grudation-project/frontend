@@ -1,7 +1,7 @@
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, LineChart, Line, CartesianGrid, PieChart, Pie, Cell } from "recharts";
 import Tickets from "../Tickets/Tickets";
 
-const DashboardPage = () => {
+const UserDash = () => {
   const stats = [
     { label: "All tickets", value: 10, percentage: 100 },
     { label: "Open tickets", value: 7, percentage: 70 },
@@ -63,7 +63,6 @@ const DashboardPage = () => {
         ))}
       </div>
 
-      {/* المخططات */}
       <div className="grid grid-cols-2 gap-4 mt-6">
         <div className="bg-white p-4 rounded-lg shadow-md">
           <h3 className="text-lg font-semibold mb-2">Daily Respond</h3>
@@ -91,7 +90,6 @@ const DashboardPage = () => {
         </div>
       </div>
 
-      {/* جدول التذاكر الحديثة */}
       <div className="bg-white p-4 rounded-lg shadow-md mt-6">
         <h3 className="text-lg font-semibold mb-2">Recent Tickets</h3>
         <Tickets/>
@@ -101,4 +99,4 @@ const DashboardPage = () => {
   );
 };
 
-export default DashboardPage;
+export default UserDash;

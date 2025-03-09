@@ -31,14 +31,13 @@ const MainSection = () => {
         {/* Navigation buttons */}
         <div className="mt-8 flex flex-col md:flex-row items-center gap-4 relative z-10">
           <Link
-            className="px-8 py-3 rounded-lg text-white text-lg font-semibold shadow-lg transition duration-300"
-            style={{ background: 'linear-gradient(90deg, #0B76C2, #13D6D6)' }}
+            className="px-8 py-3 rounded-[16px] text-white text-lg font-semibold shadow-lg transition duration-300 bg-gradient-to-r from-blue-500 to-cyan-400"
             to="/auth/login"
           >
             Sign in
           </Link>
           <Link
-            className="px-8 py-3 rounded-lg text-lg font-semibold text-cyan-400 border-2 border-cyan-400 transition duration-300 hover:bg-cyan-400 hover:text-white"
+            className="px-8 py-3 rounded-[16px] text-lg font-semibold text-cyan-400 border-2 border-cyan-400 transition duration-300 hover:bg-cyan-400 hover:text-white"
             to="/auth/register"
           >
             Submit Ticket

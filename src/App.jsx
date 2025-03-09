@@ -11,6 +11,7 @@ import OtpVerification from './pages/auth/OtpVerification';
 import Home from './pages/home/Home';
 import NotFoundPage from './pages/utils/NotFoundPage';
 import AboutPage from './pages/utils/About';
+import { UserProvider } from './context/userContext';
 
 
 function App() {
@@ -32,7 +33,12 @@ function App() {
 
     </Route>
   ))
-  return <RouterProvider router={router} />
+  return (
+    <UserProvider>
+      <RouterProvider router={router} />
+    </UserProvider>
+  )
+
 }
 
 export default App;

@@ -33,7 +33,7 @@ export default function NavbarLanding() {
           <Link to="/about" className="block md:inline text-white text-lg hover:text-gray-400 transition py-2 md:py-0 md:px-4">About us</Link>
 
           {/* Sign In Button inside menu for small screens */}
-          <Link to="/auth/login" className="block md:hidden bg-gradient-to-r from-blue-500 to-cyan-400 text-white px-6 py-2 w-full text-center rounded-full text-lg font-medium shadow-md hover:opacity-90 transition mt-4">
+          <Link to="/auth/login" className="block md:hidden bg-gradient-to-r from-blue-500 to-cyan-400 text-white px-6 py-2 w-full text-center rounded-[16px] text-lg font-medium shadow-md hover:opacity-90 transition mt-4">
             Sign in
           </Link>
         </div>

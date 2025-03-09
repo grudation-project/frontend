@@ -1,32 +1,65 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import admin from '../../images/admin4.png';
-import AddAlertIcon from '@mui/icons-material/AddAlert';
+import AddAlertIcon from "@mui/icons-material/AddAlert";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore"; // Dropdown arrow
+import admin from "../../images/admin4.png";
 
 export default function Navbar() {
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+
   return (
-    <nav className="fixed top-0 left-64 z-50 w-[calc(100%-16rem)] bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700 px-6 py-3 shadow-md">
-      <div className="flex items-center justify-between">
-        {/* العنوان */}
-        <div className="flex items-center">
-          <span className="text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
-            Hello Hazem!
-          </span>
-        </div>
+    <nav className="fixed top-0 left-64 h-20 z-50 w-[calc(100%-16rem)] bg-white border-b border-gray-200 px-6 py-3 shadow-md flex items-center justify-between">
+      {/* Left Section: Greeting & Date */}
+      <div>
+        <p className="text-lg font-semibold text-gray-700">Hello Hazem!</p>
+        <p className="text-xs text-gray-500">December 12TH 2024</p>
+      </div>
 
-        {/* الروابط */}
-        
+      {/* Right Section: Notifications & Profile */}
+      <div className="flex items-center gap-6">
+        {/* Notification Icon */}
+        <button className="relative text-gray-500 hover:text-gray-700">
+          <AddAlertIcon fontSize="medium" />
+        </button>
 
-        {/* الإشعارات والبروفايل */}
-        <div className="flex items-center gap-4">
-          <button className="relative text-gray-700 dark:text-white">
-            <i className="fas fa-bell text-xl"></i>
+        {/* Profile Dropdown */}
+        <div className="relative">
+          <button
+            className="flex items-center gap-2"
+            onClick={() => setIsProfileOpen(!isProfileOpen)}
+          >
+            <img
+              className="w-10 h-10 rounded-full border-2 border-gray-300"
+              src={admin}
+              alt="User"
+            />
+            <span className="text-gray-700 font-medium">Hazem Sharaf</span>
+            <ExpandMoreIcon className="text-gray-500" />
           </button>
-            <AddAlertIcon/>
-          
-          <Link to="/profile" className="flex items-center gap-2">
-            <img className="w-10 h-10 rounded-full border-2 border-gray-300 dark:border-white" src={admin} alt="User" />
-            <span className="text-lg font-medium dark:text-white">Hazem Sharaf</span>
-          </Link>
+
+          {/* Dropdown Menu */}
+          {isProfileOpen && (
+            <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg py-2 border border-gray-100">
+              <Link
+                to="/profile"
+                className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+              >
+                Profile
+              </Link>
+              <Link
+                to="/settings"
+                className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+              >
+                Settings
+              </Link>
+              <Link
+                to="/auth/logout"
+                className="block px-4 py-2 text-red-600 hover:bg-gray-100"
+              >
+                Logout
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </nav>
