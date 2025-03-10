@@ -42,9 +42,10 @@ export default function Login() {
       // Save token to localStorage or Redux if needed
       localStorage.setItem("token", response.data.token);
       Cookies.set("accessToken", response.data.token);
+      localStorage.setItem("user", response.data.user.type);
       setTimeout(() => {
 
-        navigate("/dashboard");
+        navigate("/dashboard", { state: { data: response.data } });
       }, 1500);
     } catch (error) {
       if (error.data?.message) {

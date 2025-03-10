@@ -2,16 +2,16 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import AddAlertIcon from "@mui/icons-material/AddAlert";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore"; // Dropdown arrow
-import admin from "../../images/admin4.png";
 
-export default function Navbar() {
+// eslint-disable-next-line react/prop-types
+export default function Navbar({ UserName, Image }) {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   return (
     <nav className="fixed top-0 left-64 h-20 z-50 w-[calc(100%-16rem)] bg-white border-b border-gray-200 px-6 py-3 shadow-md flex items-center justify-between">
       {/* Left Section: Greeting & Date */}
       <div>
-        <p className="text-lg font-semibold text-gray-700">Hello Hazem!</p>
+        <p className="text-lg font-semibold text-gray-700">Hello {UserName}</p>
         <p className="text-xs text-gray-500">December 12TH 2024</p>
       </div>
 
@@ -30,10 +30,10 @@ export default function Navbar() {
           >
             <img
               className="w-10 h-10 rounded-full border-2 border-gray-300"
-              src={admin}
+              src={Image}
               alt="User"
             />
-            <span className="text-gray-700 font-medium">Hazem Sharaf</span>
+            <span className="text-gray-700 font-medium">{UserName}</span>
             <ExpandMoreIcon className="text-gray-500" />
           </button>
 

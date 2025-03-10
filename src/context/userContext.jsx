@@ -4,8 +4,23 @@ const UserContext = createContext();
 
 // eslint-disable-next-line react/prop-types
 export const UserProvider = ({ children }) => {
-  // Simulate fetching user type (replace with real authentication logic)
-  const [userType, setUserType] = useState("admin") // Change based on login
+  const type = Number(localStorage.getItem("user"));
+  let role = "";
+  switch (type) {
+    case 0:
+      role = "admin";
+      break;
+    case 1:
+      role = "user";
+      break;
+    case 2:
+      role = "manager";
+      break;
+    case 3:
+      role = "technician";
+      break;
+  }
+  const [userType, setUserType] = useState(role) // Change based on login
 
   return (
     <UserContext.Provider value={{ userType, setUserType }}>
