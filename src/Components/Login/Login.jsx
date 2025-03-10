@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useUser } from "../../context/userContext";
 import Cookies from "js-cookie";
 import { useForm } from "react-hook-form";
 import { useLoginMutation } from "../../redux/feature/auth/authApiSlice";
@@ -14,6 +15,7 @@ const schema = z.object({
 });
 
 export default function Login() {
+  const { setUser, setUserType } = useUser();
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const [login, { isLoading }] = useLoginMutation();
@@ -42,10 +44,11 @@ export default function Login() {
       // Save token to localStorage or Redux if needed
       localStorage.setItem("token", response.data.token);
       Cookies.set("accessToken", response.data.token);
-      localStorage.setItem("user", response.data.user.type);
+      setUser(response.data.user);
+      setUserType(response.data.user.type);
       setTimeout(() => {
 
-        navigate("/dashboard", { state: { data: response.data } });
+        navigate("/dashboard");
       }, 1500);
     } catch (error) {
       if (error.data?.message) {

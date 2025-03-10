@@ -6,6 +6,7 @@ import MenuIcon from "@mui/icons-material/Menu"; // Hamburger Icon
 import CloseIcon from "@mui/icons-material/Close"; // Close Icon
 import Logo from "../../images/logo bg-black.png";
 import { menuConfig } from "./menuConfig";
+import getUserRole from "../../context/userType";
 
 // eslint-disable-next-line react/prop-types
 export default function Sidebar({ activePage, setActivePage }) {
@@ -32,12 +33,11 @@ export default function Sidebar({ activePage, setActivePage }) {
                         {/* Logo */}
                         <div className="flex justify-between items-center px-2">
                             <img src={Logo} className="w-50 mb-6" alt="Logo" />
-                            {/* Close Button (for Mobile) */}
                         </div>
 
                         {/* Sidebar Menu */}
                         <ul className="space-y-2 font-medium mt-8">
-                            {menuConfig[userType]?.map((item) => (
+                            {menuConfig[getUserRole(userType)]?.map((item) => (
                                 <li key={item.id} className="mt-5 ">
                                     <button
                                         onClick={() => {
