@@ -10,7 +10,7 @@ import getUserRole from "../../context/userType";
 
 // eslint-disable-next-line react/prop-types
 export default function Sidebar({ activePage, setActivePage }) {
-    const { userType } = useUser(); // Get user role from context
+    const { user } = useUser(); // Get user role from context
     const [isOpen, setIsOpen] = useState(false); // Sidebar state for mobile
 
     return (
@@ -37,7 +37,7 @@ export default function Sidebar({ activePage, setActivePage }) {
 
                         {/* Sidebar Menu */}
                         <ul className="space-y-2 font-medium mt-8">
-                            {menuConfig[getUserRole(userType)]?.map((item) => (
+                            {menuConfig[getUserRole(user.type)]?.map((item) => (
                                 <li key={item.id} className="mt-5 ">
                                     <button
                                         onClick={() => {

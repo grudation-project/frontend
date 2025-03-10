@@ -11,11 +11,11 @@ import "react-toastify/dist/ReactToastify.css";
 
 const schema = z.object({
   email: z.string().email("Invalid email format"),
-  pass: z.string().min(6, "Password must be at least 6 characters"),
+  pass: z.string().min(4, "Password must be at least 4 characters"),
 });
 
 export default function Login() {
-  const { setUser, setUserType } = useUser();
+  const { setUser} = useUser();
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const [login, { isLoading }] = useLoginMutation();
@@ -45,7 +45,7 @@ export default function Login() {
       localStorage.setItem("token", response.data.token);
       Cookies.set("accessToken", response.data.token);
       setUser(response.data.user);
-      setUserType(response.data.user.type);
+      localStorage.setItem("user", JSON.stringify(response.data.user));
       setTimeout(() => {
 
         navigate("/dashboard");
@@ -147,7 +147,7 @@ export default function Login() {
           </div>
         </div>
       </div>
-      <ToastContainer position="top-right" autoClose={3000} />
+      <ToastContainer position="top-right" autoClose={1500} />
     </div>
   );
 }

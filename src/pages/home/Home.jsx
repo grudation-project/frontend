@@ -6,10 +6,14 @@ import { dashboardContent } from "./DashContent";
 import getUserRole from "../../context/userType";
 
 export default function Home() {
-  const { userType, user } = useUser(); // Get user type from context
+  const { user } = useUser(); // Get user type from context
   const [activePage, setActivePage] = useState("dashboard");
 
+
+  if (!user) return <p>Loading...</p>;
+
   return (
+
     <div className="flex">
       {/* Sidebar Component */}
       <Sidebar activePage={activePage} setActivePage={setActivePage} />
@@ -17,7 +21,7 @@ export default function Home() {
       <main className="sm:ml-64 w-full">
         <Navbar UserName={user.name} Image={user.avatar} />
         <div className="p-8 mt-14">
-          {dashboardContent[getUserRole(userType)]?.[activePage] || <p>Unauthorized</p>}
+          {dashboardContent[getUserRole(user.type)]?.[activePage] || <p>Unauthorized</p>}
         </div>
       </main>
     </div>

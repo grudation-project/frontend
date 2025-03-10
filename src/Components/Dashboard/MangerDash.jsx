@@ -28,20 +28,20 @@ const MangerDash = () => {
     { year: 2026, tickets: 3500 },
   ];
 
-  const COLORS = ["#2C5282", "#3182CE", "#90CDF4"];
+  const COLORS = ["#2C5282", "#3182CE"];
 
   return (
     <div className="p-6">
-      <h2 className="text-2xl font-bold mb-4">Dashboard</h2>
+      <h2 className="text-3xl font-bold mb-6">Dashboard</h2>
 
-      {/* الاحصائيات مع الدوائر */}
-      <div className="grid grid-cols-4 gap-4">
+      {/* Stats Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((stat, index) => (
-          <div key={index} className="bg-white p-4 rounded-lg shadow-md text-center relative">
-            <h3 className="text-lg font-semibold">{stat.label}</h3>
-            <p className="text-2xl font-bold">{stat.value}</p>
-            <div className="absolute top-3 right-3">
-              <PieChart width={50} height={50}>
+          <div key={index} className="bg-white p-6 rounded-xl shadow-md flex flex-col items-center relative">
+            <h3 className="text-md font-semibold">{stat.label}</h3>
+            <p className="text-3xl font-bold mt-2">{stat.value}</p>
+            <div className="absolute top-4 right-4">
+              <PieChart width={60} height={60}>
                 <Pie
                   data={[
                     { name: "Completed", value: stat.percentage },
@@ -49,8 +49,8 @@ const MangerDash = () => {
                   ]}
                   cx="50%"
                   cy="50%"
-                  innerRadius={15}
-                  outerRadius={25}
+                  innerRadius={20}
+                  outerRadius={28}
                   fill="#8884d8"
                   dataKey="value"
                 >
@@ -63,36 +63,41 @@ const MangerDash = () => {
         ))}
       </div>
 
-      <div className="grid grid-cols-2 gap-4 mt-6">
-        <div className="bg-white p-4 rounded-lg shadow-md">
-          <h3 className="text-lg font-semibold mb-2">Daily Respond</h3>
+      {/* Charts Section */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
+        <div className="bg-white p-6 rounded-xl shadow-md">
+          <h3 className="text-lg font-semibold mb-4">Daily Respond</h3>
           <ResponsiveContainer width="100%" height={200}>
             <BarChart data={barData}>
               <XAxis dataKey="name" />
               <YAxis />
               <Tooltip />
-              <Bar dataKey="value" fill="#3182CE" />
+              <Bar dataKey="value" fill="#3182CE" radius={[6, 6, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>
 
-        <div className="bg-white p-4 rounded-lg shadow-md">
-          <h3 className="text-lg font-semibold mb-2">Annual Tickets Average</h3>
+        <div className="bg-white p-6 rounded-xl shadow-md">
+          <h3 className="text-lg font-semibold mb-4">Annual Tickets Average</h3>
           <ResponsiveContainer width="100%" height={200}>
             <LineChart data={lineData}>
               <XAxis dataKey="year" />
               <YAxis />
               <Tooltip />
-              <CartesianGrid stroke="#ccc" />
-              <Line type="monotone" dataKey="tickets" stroke="#2C5282" />
+              <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
+              <Line type="monotone" dataKey="tickets" stroke="#2C5282" strokeWidth={2} />
             </LineChart>
           </ResponsiveContainer>
         </div>
       </div>
 
-      <div className="bg-white p-4 rounded-lg shadow-md mt-6">
-        <h3 className="text-lg font-semibold mb-2">Recent Tickets</h3>
-        <Tickets/>
+      {/* Recent Tickets */}
+      <div className="bg-white p-6 rounded-xl shadow-md mt-8">
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="text-lg font-semibold">Recent Tickets</h3>
+          <a href="/tickets" className="text-blue-500 text-sm">View All</a>
+        </div>
+        <Tickets />
       </div>
 
     </div>
