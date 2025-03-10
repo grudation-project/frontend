@@ -1,5 +1,5 @@
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, LineChart, Line, CartesianGrid, PieChart, Pie, Cell } from "recharts";
-import Tickets from "../Tickets/Tickets";
+import Tickets from "../Tickets/TecniTickets";
 
 const TechniDash = () => {
   const stats = [

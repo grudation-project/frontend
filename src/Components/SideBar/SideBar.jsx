@@ -7,6 +7,7 @@ import CloseIcon from "@mui/icons-material/Close"; // Close Icon
 import Logo from "../../images/logo bg-black.png";
 import { menuConfig } from "./menuConfig";
 
+// eslint-disable-next-line react/prop-types
 export default function Sidebar({ activePage, setActivePage }) {
     const { userType } = useUser(); // Get user role from context
     const [isOpen, setIsOpen] = useState(false); // Sidebar state for mobile
