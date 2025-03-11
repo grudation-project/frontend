@@ -1,8 +1,8 @@
+/* eslint-disable react/prop-types */
 import { PieChart, Pie, Cell } from "recharts";
 import { FaUsers, FaTicketAlt } from "react-icons/fa"; // Ticket icon
 
 const COLORS = ["#0D1B44", "#E5E7EB"];
-// eslint-disable-next-line react/prop-types
 const StatsCards = ({ stats }) => {
     return (
         <div className="grid grid-cols-1  sm:grid-cols-2 lg:grid-cols-4 gap-6 ">

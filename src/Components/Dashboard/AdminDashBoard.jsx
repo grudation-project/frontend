@@ -1,4 +1,3 @@
-import Tickets from "../Tickets/UserTickets";
 import StatsCards from "./charts/Stats";
 import DailyRespondChart from "./charts/DailyChart";
 import AnnualTicketsChart from "./charts/AnnalChart";
