@@ -1,4 +1,5 @@
-import { FaTrash, FaEdit } from "react-icons/fa";
+import { FaTrash, FaEdit, FaPaperPlane } from "react-icons/fa";
+import { useUser } from "../../../context/userContext";
 
 const tickets = [
     {
@@ -40,6 +41,7 @@ const tickets = [
 ];
 
 const RecentTicketsTable = () => {
+    const { user } = useUser();
     return (
         <div
             className="bg-white p-4 md:p-6 rounded-xl shadow-lg"
@@ -90,6 +92,13 @@ const RecentTicketsTable = () => {
                                     <button className="text-gray-600 hover:text-black">
                                         <FaEdit />
                                     </button>
+                                    {
+                                        user.type == 2 && (
+                                            <button className="text-gray-600 hover:text-black">
+                                                <FaPaperPlane />
+                                            </button>
+                                        )
+                                    }
                                 </td>
                             </tr>
                         ))}
