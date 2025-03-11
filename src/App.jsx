@@ -27,8 +27,8 @@ function App() {
         <Route path="verify-user" element={<OtpVerification />} />
         <Route path="reset-pass-otp" element={<OtpVerification />} />
       </Route>
-      <Route path='dashboard' element={<Home />} /> 
-      <Route path="/about" element={<AboutPage />} />
+      <Route path='dashboard' element={<Home />} />
+      <Route path="about" element={<AboutPage />} />
       <Route path="*" element={<NotFoundPage />} />
 
     </Route>
