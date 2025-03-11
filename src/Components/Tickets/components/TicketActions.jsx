@@ -2,7 +2,7 @@
 import { Link } from "react-router-dom";
 import { FaPlus, FaSearch } from "react-icons/fa";
 
-const TicketActions = ({ search, setSearch, itemsPerPage, setItemsPerPage, addTicket, tickets }) => {
+const TicketActions = ({ search, setSearch, itemsPerPage, setItemsPerPage, addTicket}) => {
     return (
         <div className=" p-0  mb-6 mt-6 flex flex-wrap items-center justify-between gap-4 ">
 

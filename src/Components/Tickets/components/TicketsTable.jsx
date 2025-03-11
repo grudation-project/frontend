@@ -29,7 +29,7 @@ const TicketsTable = () => {
     const displayedTickets = ticketsData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
     return (
-        <div className="bg-white p-4 md:p-6 rounded-xl shadow-lg">
+        <div className="bg-white p-4 md:p-6 rounded-xl shadow-lg ">
             <div className="overflow-x-auto">
                 <table className="w-full border-collapse">
                     <thead>
