@@ -1,4 +1,4 @@
-import { FaTrash, FaEdit, FaPaperPlane } from "react-icons/fa";
+import { FaTrash, FaEdit, FaPaperPlane, FaRegCircle } from "react-icons/fa";
 import { useUser } from "../../../context/userContext";
 
 const tickets = [
@@ -96,6 +96,13 @@ const RecentTicketsTable = () => {
                                         user.type == 2 && (
                                             <button className="text-gray-600 hover:text-black">
                                                 <FaPaperPlane />
+                                            </button>
+                                        )
+                                    }
+                                    {
+                                        user.type == 3 && (
+                                            <button className="text-gray-600 hover:text-black">
+                                                <FaRegCircle />
                                             </button>
                                         )
                                     }

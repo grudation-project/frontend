@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
-import { FaTrash, FaEdit, FaPaperPlane } from "react-icons/fa";
+import { FaTrash, FaEdit, FaPaperPlane, FaRegCircle } from "react-icons/fa";
 import { useUser } from "../../../context/userContext";
 
 
@@ -52,6 +52,7 @@ const TicketsTable = ({ ticketsData }) => {
                                     <button className="text-red-500 hover:text-red-700"><FaTrash /></button>
                                     <button className="text-gray-600 hover:text-black"><FaEdit /></button>
                                     {user.type == 2 && <button className="text-gray-600 hover:text-black"><FaPaperPlane /></button>}
+                                    {user.type == 3 && <button className="text-gray-600 hover:text-black"><FaRegCircle /></button>}
                                 </td>
                             </tr>
                         ))}
