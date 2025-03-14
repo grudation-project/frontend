@@ -8,11 +8,12 @@ import ManagTickets from "../../Components/Tickets/ManagTickets";
 import TechniTickets from "../../Components/Tickets/TecniTickets";
 import AdminManager from "../../Components/Manager/Manager";
 import Service from "../../Components/service/Service";
+import ChatUI from "../../Components/Chat/ChatUi";
 
 
 export const dashboardContent = {
     admin: { dashboard: <AdminDash />, tickets: <AdminTickets />, manager: <AdminManager />, service: <Service /> },
-    user: { dashboard: <UserDash />, tickets: <UserTickets />, chat: <Service /> },
-    manager: { dashboard: <MangerDash />, tickets: <ManagTickets />, technician: <Service />, chat: <Service /> },
-    technician: { dashboard: <TechniDash />, tickets: <TechniTickets />, chat: <Service /> },
+    user: { dashboard: <UserDash />, tickets: <UserTickets />, chat: <ChatUI /> },
+    manager: { dashboard: <MangerDash />, tickets: <ManagTickets />, technician: <Service />, chat: <ChatUI /> },
+    technician: { dashboard: <TechniDash />, tickets: <TechniTickets />, chat: <ChatUI /> },
 };
