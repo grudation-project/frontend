@@ -19,7 +19,7 @@ export default function Home() {
       <Sidebar activePage={activePage} setActivePage={setActivePage} />
       {/* Main Content */}
       <main className="sm:ml-64 w-full">
-        <Navbar UserName={user.name} Image={user.avatar} />
+        <Navbar UserName={user.name} Image={user.avatar} setActivePage={setActivePage} />
         <div className="p-8 mt-14">
           {dashboardContent[getUserRole(user.type)]?.[activePage] || <p>Unauthorized</p>}
         </div>

@@ -4,7 +4,7 @@ import AddAlertIcon from "@mui/icons-material/AddAlert";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore"; // Dropdown arrow
 
 // eslint-disable-next-line react/prop-types
-export default function Navbar({ UserName, Image }) {
+export default function Navbar({ UserName, Image, setActivePage }) {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   return (
@@ -40,12 +40,12 @@ export default function Navbar({ UserName, Image }) {
           {/* Dropdown Menu */}
           {isProfileOpen && (
             <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg py-2 border border-gray-100">
-              <Link
-                to="/profile"
+              <button
+                onClick={() => setActivePage("profile")}
                 className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
               >
                 Profile
-              </Link>
+              </button>
               <Link
                 to="/settings"
                 className="block px-4 py-2 text-gray-700 hover:bg-gray-100"

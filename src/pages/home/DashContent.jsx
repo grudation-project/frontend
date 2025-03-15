@@ -9,11 +9,11 @@ import TechniTickets from "../../Components/Tickets/TecniTickets";
 import AdminManager from "../../Components/Manager/Manager";
 import Service from "../../Components/service/Service";
 import ChatUI from "../../Components/Chat/ChatUi";
-
+import Profile from "../../Components/Profile/Profile";
 
 export const dashboardContent = {
-    admin: { dashboard: <AdminDash />, tickets: <AdminTickets />, manager: <AdminManager />, service: <Service /> },
-    user: { dashboard: <UserDash />, tickets: <UserTickets />, chat: <ChatUI /> },
-    manager: { dashboard: <MangerDash />, tickets: <ManagTickets />, technician: <Service />, chat: <ChatUI /> },
-    technician: { dashboard: <TechniDash />, tickets: <TechniTickets />, chat: <ChatUI /> },
+    admin: { dashboard: <AdminDash />, tickets: <AdminTickets />, manager: <AdminManager />, service: <Service />, profile: <Profile /> },
+    user: { dashboard: <UserDash />, tickets: <UserTickets />, chat: <ChatUI />, profile: <Profile /> },
+    manager: { dashboard: <MangerDash />, tickets: <ManagTickets />, technician: <Service />, chat: <ChatUI />, profile: <Profile /> },
+    technician: { dashboard: <TechniDash />, tickets: <TechniTickets />, chat: <ChatUI />, profile: <Profile /> },
 };
