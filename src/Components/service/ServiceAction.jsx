@@ -1,26 +1,27 @@
 /* eslint-disable react/prop-types */
-import { Link } from "react-router-dom";
 import { FaPlus, FaSearch } from "react-icons/fa";
 
-const ServiceActions = ({ search, setSearch, itemsPerPage, setItemsPerPage, addService }) => {
+const ServiceActions = ({
+    search, setSearch,
+    itemsPerPage, setItemsPerPage,
+    setShowModal
+}) => {
     return (
-        <div className="p-0 mb-6 mt-6 flex flex-wrap items-center justify-between gap-4">
+        <>
+            <h1 className="text-4xl font-bold text-gray-800">Add Services</h1>
+            <div className={`p-0 mb-6 mt-6 flex flex-wrap items-center justify-between gap-4`}>
+                <div className="relative flex-1 max-w-md">
+                    <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                    <input
+                        type="text"
+                        placeholder="Search Services"
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        className="border pl-10 pr-3 py-2.5 rounded-[15px] w-full"
+                    />
+                </div>
 
-            {/* Search Box with Icon */}
-            <div className="relative flex-1 max-w-md">
-                <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                <input
-                    type="text"
-                    placeholder="Search Services"
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                    className="border pl-10 pr-3 py-2.5 rounded-[15px] w-full"
-                />
-            </div>
-
-            <div className="flex items-center gap-6">
-                {/* Items Per Page Dropdown */}
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-6">
                     <select
                         className="border p-2.5 rounded-[15px]"
                         value={itemsPerPage}
@@ -30,19 +31,16 @@ const ServiceActions = ({ search, setSearch, itemsPerPage, setItemsPerPage, addS
                             <option key={size} value={size}>{size}</option>
                         ))}
                     </select>
+
+                    <button
+                        className="bg-black text-white px-4 py-2 md:py-3 rounded-lg flex items-center gap-2 hover:bg-gray-900 transition"
+                        onClick={() => setShowModal(true)}
+                    >
+                        <FaPlus className="w-4 h-4" /> New Service
+                    </button>
                 </div>
-
-                {/* "New Service" Button */}
-                <Link
-                    to='/AddService'
-                    className="bg-black text-white px-4 py-2 md:py-3 rounded-lg flex items-center gap-2 hover:bg-gray-900 transition"
-                    onClick={addService}
-                >
-                    <FaPlus className="w-4 h-4" /> New Service
-                </Link>
             </div>
-
-        </div>
+        </>
     );
 };
 

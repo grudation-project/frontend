@@ -1,22 +1,65 @@
 import { useState } from "react";
 import ServiceActions from "./ServiceAction";
 import ServiceTable from "./ServiceTable";
+import AddServiceModal from "./AddService";
+import { useCreateServiceApiMutation } from "../../redux/feature/admin/Services/admin.service.apislice";
+import { ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 
 const Service = () => {
   const [search, setSearch] = useState("");
   const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [showModal, setShowModal] = useState(false);
+  const [serviceName, setServiceName] = useState("");
+  const [createService] = useCreateServiceApiMutation();
+
+  const handleAddService = async () => {
+    if (!serviceName.trim()) {
+      toast.warn("Service name cannot be empty");
+      return;
+    }
+
+    try {
+      const response = await createService({ name: serviceName }).unwrap();
+      console.log("Service created:", response);
+      toast.success("Service added successfully!");
+      setServiceName("");
+      setShowModal(false);
+    } catch (error) {
+      console.error("Failed to create service:", error);
+      toast.error("Failed to add service. Please try again.");
+    }
+  };
 
   return (
-    <div className="p-6 mx-auto">
-      <h1 className="text-4xl  font-bold text-gray-800 ">Add Services</h1>
+    <div className="relative p-6 mx-auto">
       <ServiceActions
         search={search}
         setSearch={setSearch}
         itemsPerPage={itemsPerPage}
         setItemsPerPage={setItemsPerPage}
-        addService={() => console.log("Adding new service...")}
+        setShowModal={setShowModal}
       />
-      <ServiceTable />
+      <div className={showModal ? "pointer-events-none blur-sm" : ""}>
+        <ServiceTable />
+      </div>
+
+      <AddServiceModal
+        show={showModal}
+        onClose={() => setShowModal(false)}
+        serviceName={serviceName}
+        setServiceName={setServiceName}
+        onAdd={handleAddService}
+      />
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        theme="light"
+      />
     </div>
   );
 };
