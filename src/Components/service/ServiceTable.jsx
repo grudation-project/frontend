@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useState } from "react";
 import { FaTrash, FaEdit } from "react-icons/fa";
 import {
@@ -7,17 +8,21 @@ import {
 } from "../../redux/feature/admin/Services/admin.service.apislice";
 import { toast } from "react-toastify";
 import EditServiceModal from "./EditService";
+import Pagination from "../../common/Pagnitation";
+import ConfirmDialog from "../../common/ConfirmDialogu";
 
 const itemsPerPage = 9;
 
-const ServicesTable = () => {
+const ServicesTable = ({ search }) => {
     const { data, refetch } = useShowAllServicesApiQuery();
     const [deleteService] = useDeleteServiceApiMutation();
     const [updateService] = useUpdateServiceApiMutation();
-
     const servicesData = data?.data || [];
     const [currentPage, setCurrentPage] = useState(1);
-    const totalPages = Math.ceil(servicesData.length / itemsPerPage);
+
+    const filteredServices = servicesData.filter((service) =>
+        service.name.toLowerCase().includes(search.toLowerCase()))
+    const totalPages = Math.ceil(filteredServices.length / itemsPerPage);
 
     const [editingService, setEditingService] = useState(null);
     const [editName, setEditName] = useState("");
@@ -28,16 +33,23 @@ const ServicesTable = () => {
         }
     };
 
-    const handleDelete = async (id) => {
-        if (window.confirm("Are you sure you want to delete this service?")) {
-            try {
-                await deleteService(id).unwrap();
-                toast.success("Service deleted successfully");
-                refetch();
-            } catch (err) {
-                toast.error("Failed to delete service");
-                console.error(err);
-            }
+    const [showConfirm, setShowConfirm] = useState(false);
+    const [selectedId, setSelectedId] = useState(null);
+    const handleDeleteClick = (id) => {
+        setSelectedId(id);
+        setShowConfirm(true);
+    };
+    const confirmDelete = async () => {
+        try {
+            await deleteService(selectedId).unwrap();
+            toast.success("Service deleted successfully");
+            refetch();
+        } catch (err) {
+            toast.error("Failed to delete service");
+            console.error(err);
+        } finally {
+            setShowConfirm(false);
+            setSelectedId(null);
         }
     };
 
@@ -62,7 +74,7 @@ const ServicesTable = () => {
         }
     };
 
-    const displayedServices = servicesData.slice(
+    const displayedServices = filteredServices.slice(
         (currentPage - 1) * itemsPerPage,
         currentPage * itemsPerPage
     );
@@ -92,7 +104,7 @@ const ServicesTable = () => {
                                 </td>
                                 <td className="py-3 px-4 flex items-center space-x-3">
                                     <button
-                                        onClick={() => handleDelete(service.id)}
+                                        onClick={() => handleDeleteClick(service.id)}
                                         className="text-red-500 hover:text-red-700"
                                     >
                                         <FaTrash />
@@ -110,52 +122,26 @@ const ServicesTable = () => {
                 </table>
             </div>
 
-            {/* Pagination */}
-            <div className="flex justify-between items-center mt-4 text-gray-600 text-sm">
-                <p>
-                    Showing {(currentPage - 1) * itemsPerPage + 1} to{" "}
-                    {Math.min(currentPage * itemsPerPage, servicesData.length)} of{" "}
-                    {servicesData.length} entries
-                </p>
-                <div className="flex space-x-2">
-                    <button
-                        onClick={() => handlePageChange(currentPage - 1)}
-                        className={`px-3 py-1 rounded-md ${currentPage === 1
-                            ? "bg-gray-300 cursor-not-allowed"
-                            : "bg-gray-500 text-white hover:bg-gray-700"
-                            }`}
-                    >
-                        &lt;
-                    </button>
-                    {[...Array(totalPages)].map((_, i) => (
-                        <button
-                            key={i}
-                            onClick={() => handlePageChange(i + 1)}
-                            className={`px-3 py-1 rounded-md ${currentPage === i + 1
-                                ? "bg-blue-700 text-white"
-                                : "bg-gray-300 hover:bg-gray-400"
-                                }`}
-                        >
-                            {i + 1}
-                        </button>
-                    ))}
-                    <button
-                        onClick={() => handlePageChange(currentPage + 1)}
-                        className={`px-3 py-1 rounded-md ${currentPage === totalPages
-                            ? "bg-gray-300 cursor-not-allowed"
-                            : "bg-gray-500 text-white hover:bg-gray-700"
-                            }`}
-                    >
-                        &gt;
-                    </button>
-                </div>
-            </div>
+            <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+                itemsPerPage={itemsPerPage}
+                dataLength={servicesData?.length}
+            />
             <EditServiceModal
                 show={editingService !== null}
                 onClose={() => setEditingService(null)}
                 editName={editName}
                 setEditName={setEditName}
                 onSave={handleEditSubmit}
+            />
+
+            <ConfirmDialog
+                show={showConfirm}
+                message="Do you really want to delete this service? it cannot be undone."
+                onConfirm={confirmDelete}
+                onCancel={() => setShowConfirm(false)}
             />
         </div>
     );

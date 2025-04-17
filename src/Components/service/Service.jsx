@@ -41,7 +41,7 @@ const Service = () => {
         setShowModal={setShowModal}
       />
       <div className={showModal ? "pointer-events-none blur-sm" : ""}>
-        <ServiceTable />
+        <ServiceTable search={search} itemsPerPage={itemsPerPage} />
       </div>
 
       <AddServiceModal

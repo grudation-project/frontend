@@ -5,6 +5,13 @@ export const showAllServicesApi = (builder) =>
 			method: "GET",
 		}),
 	});
+export const searchServiceApi = (builder) =>
+	builder.query({
+		query: (search="") => ({
+			url: `api/admin/services?handle=${search}`,
+			method: "GET",
+		}),
+	});
 export const showOneServiceApi = (builder) =>
 	builder.query({
 		query: (id) => ({
