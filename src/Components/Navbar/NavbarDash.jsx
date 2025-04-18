@@ -53,7 +53,7 @@ export default function Navbar({ UserName, Image, setActivePage }) {
                 Settings
               </Link>
               <Link
-                to="/auth/logout"
+                to="/auth/login"
                 className="block px-4 py-2 text-red-600 hover:bg-gray-100"
               >
                 Logout

@@ -3,6 +3,7 @@ import { registerApi } from "./register/registerApi";
 import { verifyUserApi } from "./register/verifyUserApi";
 import { verifyUserResendApi } from "./register/verifyUserResend";
 import { loginApi } from "./login/LoginApi";
+import { getProfileApi, updateProfileApi } from "./profile/profileApis";
 import {
 	changePasswordApi,
 	forgetPasswordApi,
@@ -20,6 +21,9 @@ export const authApiSlice = apiSlice.injectEndpoints({
 		resetPassword: resetPasswordApi(builder),
 		validatePassword: validatePasswordApi(builder),
 		changePassword: changePasswordApi(builder),
+		getProfile: getProfileApi(builder),
+		updateProfile: updateProfileApi(builder),
+
 	}),
 });
 
@@ -32,4 +36,6 @@ export const {
 	useResetPasswordMutation,
 	useValidatePasswordMutation,
 	useChangePasswordMutation,
+	useGetProfileQuery,
+	useUpdateProfileMutation,
 } = authApiSlice;
