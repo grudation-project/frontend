@@ -1,4 +1,4 @@
-import Login from "../../Components/Login/Login"
+import Login from "../../Components/Auth/Login/Login"
 import LoginHeader from "../../Components/Navbar/LoginHeader"
 
 const LoginPage = () => {

@@ -2,29 +2,27 @@
 import { useState } from "react";
 import { FaTrash, FaEdit } from "react-icons/fa";
 import {
-    useShowAllManagersApiQuery,
-    useDeleteManagerApiMutation,
-    useUpdateManagerApiMutation,
-} from "../../../redux/feature/admin/Managers/admin.manager.apislice";
+    useShowAllTechnicianQuery,
+    useDeleteTechnicianMutation,
+    useUpdateTechnicianMutation,
+} from "../../../../redux/feature/Manager/technician/manager.tech.apiSlice";
 import { toast } from "react-toastify";
-import EditManagerModal from "./EditManger";
-import Pagination from "../../../common/Pagnitation";
-import ConfirmDialog from "../../../common/ConfirmDialogu";
+import EditTechnicianModal from "./EditTechnician";
+import Pagination from "../../../../common/Pagnitation";
+import ConfirmDialog from "../../../../common/ConfirmDialogu";
 
 const itemsPerPage = 7;
 
-const ManagerTable = ({ search }) => {
-    const { data, refetch } = useShowAllManagersApiQuery();
-    const [deleteManager] = useDeleteManagerApiMutation();
-    const [updateManager] = useUpdateManagerApiMutation();
-    const managersData = data?.data || [];
-    console.log(managersData);
-
+const TechnicianTable = ({ search }) => {
+    const { data, refetch } = useShowAllTechnicianQuery();
+    const [deleteTechnician] = useDeleteTechnicianMutation();
+    const [updateTechnician] = useUpdateTechnicianMutation();
+    const techniciansData = data?.data || [];
     const [currentPage, setCurrentPage] = useState(1);
-    const filteredManagers = managersData.filter((manager) =>
-        manager.user.name.toLowerCase().includes(search.toLowerCase())
+    const filteredTechnicians = techniciansData.filter((tech) =>
+        tech.user.name.toLowerCase().includes(search.toLowerCase())
     );
-    const totalPages = Math.ceil(filteredManagers?.length / itemsPerPage);
+    const totalPages = Math.ceil(filteredTechnicians?.length / itemsPerPage);
 
     const handlePageChange = (page) => {
         if (page >= 1 && page <= totalPages) {
@@ -43,11 +41,11 @@ const ManagerTable = ({ search }) => {
 
     const confirmDelete = async () => {
         try {
-            await deleteManager(selectedId).unwrap();
-            toast.success("Manager deleted successfully");
+            await deleteTechnician(selectedId).unwrap();
+            toast.success("Technician deleted successfully");
             refetch();
         } catch (err) {
-            toast.error("Failed to delete manager");
+            toast.error("Failed to delete technician");
             console.error(err);
         } finally {
             setShowConfirm(false);
@@ -56,38 +54,34 @@ const ManagerTable = ({ search }) => {
     };
 
     // Edit logic
-    const [editingManager, setEditingManager] = useState(null);
+    const [editingTechnician, setEditingTechnician] = useState(null);
 
-    const handleEdit = (manager) => {
-        setEditingManager({
-            id: manager.id,
-            service_id: manager.service_id,
-            user: {
-                id: manager.user.id,
-                name: manager.user.name,
-                email: manager.user.email,
-                password: "", // Leave blank for optional update
-                password_confirmation: "",
-            },
+    const handleEdit = (tech) => {
+        setEditingTechnician({
+            id: tech.id,
+            name: tech.user.name,
+            email: tech.user.email,
+            password: tech.user.password, 
+            password_confirmation: tech.user.password_confirmation, 
         });
     };
 
     const handleEditSubmit = async () => {
         try {
-            await updateManager({
-                id: editingManager.id,
-                body: editingManager,
+            await updateTechnician({
+                id: editingTechnician.id,
+                body: editingTechnician,
             }).unwrap();
-            toast.success("Manager updated successfully");
-            setEditingManager(null);
+            toast.success("Technician updated successfully");
+            setEditingTechnician(null);
             refetch();
         } catch (err) {
-            toast.error(err?.data?.message || "Failed to update manager");
+            toast.error(err?.data?.message || "Failed to update technician");
             console.error(err);
         }
     };
 
-    const displayedManagers = filteredManagers?.slice(
+    const displayedTechnicians = filteredTechnicians?.slice(
         (currentPage - 1) * itemsPerPage,
         currentPage * itemsPerPage
     );
@@ -107,27 +101,27 @@ const ManagerTable = ({ search }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {displayedManagers?.map((manager) => (
+                        {displayedTechnicians?.map((tech) => (
                             <tr
-                                key={manager.id}
+                                key={tech.id}
                                 className="border-b border-gray-200 hover:bg-gray-100 transition"
                             >
                                 <td className="py-3 px-4">
-                                    <img src={manager.avatar} alt="Avatar" className="w-10 h-10 rounded-full" />
+                                    <img src={tech.user.avatar} alt="Avatar" className="w-10 h-10 rounded-full" />
                                 </td>
-                                <td className="py-3 px-4 text-gray-800 text-md font-medium">{manager.user.name}</td>
-                                <td className="py-3 px-4 text-gray-500 text-md">{manager.user.email}</td>
-                                <td className="py-3 px-4 text-gray-500 text-md">{manager.user.phone}</td>
-                                <td className="py-3 px-4 text-gray-500 text-md">{manager.service.name}</td>
+                                <td className="py-3 px-4 text-gray-800 text-md font-medium">{tech.user.name}</td>
+                                <td className="py-3 px-4 text-gray-500 text-md">{tech.user.email}</td>
+                                <td className="py-3 px-4 text-gray-500 text-md">{tech.user.phone}</td>
+                                <td className="py-3 px-4 text-gray-500 text-md">{tech.service?.name}</td>
                                 <td className="py-3 px-4 flex items-center space-x-3">
                                     <button
-                                        onClick={() => handleDeleteClick(manager.id)}
+                                        onClick={() => handleDeleteClick(tech.id)}
                                         className="text-red-500 hover:text-red-700"
                                     >
                                         <FaTrash />
                                     </button>
                                     <button
-                                        onClick={() => handleEdit(manager)}
+                                        onClick={() => handleEdit(tech)}
                                         className="text-gray-600 hover:text-black"
                                     >
                                         <FaEdit />
@@ -144,20 +138,20 @@ const ManagerTable = ({ search }) => {
                 totalPages={totalPages}
                 onPageChange={handlePageChange}
                 itemsPerPage={itemsPerPage}
-                dataLength={filteredManagers.length}
+                dataLength={filteredTechnicians.length}
             />
 
-            <EditManagerModal
-                show={editingManager !== null}
-                onClose={() => setEditingManager(null)}
-                managerData={editingManager}
-                setManagerData={setEditingManager}
+            <EditTechnicianModal
+                show={editingTechnician !== null}
+                onClose={() => setEditingTechnician(null)}
+                managerData={editingTechnician}
+                setManagerData={setEditingTechnician}
                 onSave={handleEditSubmit}
             />
 
             <ConfirmDialog
                 show={showConfirm}
-                message="Do you really want to delete this manager? It cannot be undone."
+                message="Do you really want to delete this technician? It cannot be undone."
                 onConfirm={confirmDelete}
                 onCancel={() => setShowConfirm(false)}
             />
@@ -165,4 +159,4 @@ const ManagerTable = ({ search }) => {
     );
 };
 
-export default ManagerTable;
+export default TechnicianTable;

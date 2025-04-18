@@ -1,5 +1,5 @@
 import RegisterHeader from "../../Components/Navbar/RegisterHeader"
-import Register from "../../Components/Register/Register"
+import Register from "../../Components/Auth/Register/Register"
 
 const RegisterPage = () => {
   return (

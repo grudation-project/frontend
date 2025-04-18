@@ -5,7 +5,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange, itemsPerPage, dataL
             <p>
                 Showing {(currentPage - 1) * itemsPerPage + 1} to{" "}
                 {Math.min(currentPage * itemsPerPage, totalPages * itemsPerPage)} of {totalPages * itemsPerPage} entries
-                <p>Total Records: {dataLength}</p>
+                <span className="ml-3 font-semibold">Total Records: {dataLength}</span>
             </p>
             <div className="flex space-x-2">
                 <button
