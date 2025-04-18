@@ -1,24 +1,30 @@
+/* eslint-disable react/prop-types */
 import { useState } from "react";
 import { FaTrash, FaEdit } from "react-icons/fa";
-
-const managersData = [
-    { id: 1, name: "John Doe", email: "john.doe@example.com", phone: "123-456-7890", department: "IT", avatar: "https://i.pravatar.cc/40?img=11" },
-    { id: 2, name: "Jane Smith", email: "jane.smith@example.com", phone: "987-654-3210", department: "HR", avatar: "https://i.pravatar.cc/40?img=2" },
-    { id: 3, name: "Alice Johnson", email: "alice.johnson@example.com", phone: "555-123-4567", department: "Finance", avatar: "https://i.pravatar.cc/40?img=3" },
-    { id: 4, name: "Bob Brown", email: "bob.brown@example.com", phone: "444-987-6543", department: "Marketing", avatar: "https://i.pravatar.cc/40?img=4" },
-    { id: 5, name: "Sarah White", email: "sarah.white@example.com", phone: "321-654-0987", department: "Sales", avatar: "https://i.pravatar.cc/40?img=12" },
-    { id: 6, name: "Tom Green", email: "tom.green@example.com", phone: "777-888-9999", department: "Support", avatar: "https://i.pravatar.cc/40?img=6" },
-    { id: 7, name: "Emma Black", email: "emma.black@example.com", phone: "111-222-3333", department: "IT", avatar: "https://i.pravatar.cc/40?img=7" },
-    { id: 8, name: "Michael Scott", email: "michael.scott@example.com", phone: "999-555-1212", department: "HR", avatar: "https://i.pravatar.cc/40?img=8" },
-    { id: 9, name: "Dwight Schrute", email: "dwight.schrute@example.com", phone: "888-777-6666", department: "Sales", avatar: "https://i.pravatar.cc/40?img=15" },
-    { id: 10, name: "Pam Beesly", email: "pam.beesly@example.com", phone: "444-333-2222", department: "Marketing", avatar: "https://i.pravatar.cc/40?img=22" },
-];
+import {
+    useShowAllManagersApiQuery,
+    useDeleteManagerApiMutation,
+    useUpdateManagerApiMutation,
+} from "../../../redux/feature/admin/Managers/admin.manager.apislice";
+import { toast } from "react-toastify";
+import EditManagerModal from "./EditManger";
+import Pagination from "../../../common/Pagnitation";
+import ConfirmDialog from "../../../common/ConfirmDialogu";
 
 const itemsPerPage = 7;
 
-const ManagerTable = () => {
+const ManagerTable = ({ search }) => {
+    const { data, refetch } = useShowAllManagersApiQuery();
+    const [deleteManager] = useDeleteManagerApiMutation();
+    const [updateManager] = useUpdateManagerApiMutation();
+    const managersData = data?.data || [];
+    console.log(managersData);
+
     const [currentPage, setCurrentPage] = useState(1);
-    const totalPages = Math.ceil(managersData.length / itemsPerPage);
+    const filteredManagers = managersData.filter((manager) =>
+        manager.user.name.toLowerCase().includes(search.toLowerCase())
+    );
+    const totalPages = Math.ceil(filteredManagers?.length / itemsPerPage);
 
     const handlePageChange = (page) => {
         if (page >= 1 && page <= totalPages) {
@@ -26,7 +32,65 @@ const ManagerTable = () => {
         }
     };
 
-    const displayedManagers = managersData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+    // Delete logic
+    const [showConfirm, setShowConfirm] = useState(false);
+    const [selectedId, setSelectedId] = useState(null);
+
+    const handleDeleteClick = (id) => {
+        setSelectedId(id);
+        setShowConfirm(true);
+    };
+
+    const confirmDelete = async () => {
+        try {
+            await deleteManager(selectedId).unwrap();
+            toast.success("Manager deleted successfully");
+            refetch();
+        } catch (err) {
+            toast.error("Failed to delete manager");
+            console.error(err);
+        } finally {
+            setShowConfirm(false);
+            setSelectedId(null);
+        }
+    };
+
+    // Edit logic
+    const [editingManager, setEditingManager] = useState(null);
+
+    const handleEdit = (manager) => {
+        setEditingManager({
+            id: manager.id,
+            service_id: manager.service_id,
+            user: {
+                id: manager.user.id,
+                name: manager.user.name,
+                email: manager.user.email,
+                password: "", // Leave blank for optional update
+                password_confirmation: "",
+            },
+        });
+    };
+
+    const handleEditSubmit = async () => {
+        try {
+            await updateManager({
+                id: editingManager.id,
+                body: editingManager,
+            }).unwrap();
+            toast.success("Manager updated successfully");
+            setEditingManager(null);
+            refetch();
+        } catch (err) {
+            toast.error(err?.data?.message || "Failed to update manager");
+            console.error(err);
+        }
+    };
+
+    const displayedManagers = filteredManagers?.slice(
+        (currentPage - 1) * itemsPerPage,
+        currentPage * itemsPerPage
+    );
 
     return (
         <div className="bg-white p-4 md:p-6 rounded-xl shadow-lg">
@@ -34,6 +98,7 @@ const ManagerTable = () => {
                 <table className="w-full border-collapse">
                     <thead>
                         <tr className="text-gray-600 text-left text-lg md:text-md font-semibold border-b border-gray-300">
+                            <th className="py-3 px-4">AVATAR</th>
                             <th className="py-3 px-4">NAME</th>
                             <th className="py-3 px-4">EMAIL</th>
                             <th className="py-3 px-4">PHONE</th>
@@ -42,20 +107,31 @@ const ManagerTable = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {displayedManagers.map((manager) => (
-                            <tr key={manager.id} className="border-b border-gray-200 hover:bg-gray-100 transition">
-                                <td className="py-3 px-4 flex items-center space-x-3">
-                                    <img src={manager.avatar} alt="User" className="w-10 h-10 rounded-full" />
-                                    <div>
-                                        <p className="text-gray-800 text-md font-medium">{manager.name}</p>
-                                    </div>
+                        {displayedManagers?.map((manager) => (
+                            <tr
+                                key={manager.id}
+                                className="border-b border-gray-200 hover:bg-gray-100 transition"
+                            >
+                                <td className="py-3 px-4">
+                                    <img src={manager.avatar} alt="Avatar" className="w-10 h-10 rounded-full" />
                                 </td>
-                                <td className="py-3 px-4 text-gray-500 text-md">{manager.email}</td>
-                                <td className="py-3 px-4 text-gray-500 text-md">{manager.phone}</td>
-                                <td className="py-3 px-4 text-gray-500 text-md">{manager.department}</td>
+                                <td className="py-3 px-4 text-gray-800 text-md font-medium">{manager.user.name}</td>
+                                <td className="py-3 px-4 text-gray-500 text-md">{manager.user.email}</td>
+                                <td className="py-3 px-4 text-gray-500 text-md">{manager.user.phone}</td>
+                                <td className="py-3 px-4 text-gray-500 text-md">{manager.service.name}</td>
                                 <td className="py-3 px-4 flex items-center space-x-3">
-                                    <button className="text-red-500 hover:text-red-700"><FaTrash /></button>
-                                    <button className="text-gray-600 hover:text-black"><FaEdit /></button>
+                                    <button
+                                        onClick={() => handleDeleteClick(manager.id)}
+                                        className="text-red-500 hover:text-red-700"
+                                    >
+                                        <FaTrash />
+                                    </button>
+                                    <button
+                                        onClick={() => handleEdit(manager)}
+                                        className="text-gray-600 hover:text-black"
+                                    >
+                                        <FaEdit />
+                                    </button>
                                 </td>
                             </tr>
                         ))}
@@ -63,33 +139,28 @@ const ManagerTable = () => {
                 </table>
             </div>
 
-            {/* Pagination */}
-            <div className="flex justify-between items-center mt-4 text-gray-600 text-sm">
-                <p>Showing {((currentPage - 1) * itemsPerPage) + 1} to {Math.min(currentPage * itemsPerPage, managersData.length)} of {managersData.length} entries</p>
-                <div className="flex space-x-2">
-                    <button
-                        onClick={() => handlePageChange(currentPage - 1)}
-                        className={`px-3 py-1 rounded-md ${currentPage === 1 ? "bg-gray-300 cursor-not-allowed" : "bg-gray-500 text-white hover:bg-gray-700"}`}
-                    >
-                        &lt;
-                    </button>
-                    {[...Array(totalPages)].map((_, i) => (
-                        <button
-                            key={i}
-                            onClick={() => handlePageChange(i + 1)}
-                            className={`px-3 py-1 rounded-md ${currentPage === i + 1 ? "bg-blue-700 text-white" : "bg-gray-300 hover:bg-gray-400"}`}
-                        >
-                            {i + 1}
-                        </button>
-                    ))}
-                    <button
-                        onClick={() => handlePageChange(currentPage + 1)}
-                        className={`px-3 py-1 rounded-md ${currentPage === totalPages ? "bg-gray-300 cursor-not-allowed" : "bg-gray-500 text-white hover:bg-gray-700"}`}
-                    >
-                        &gt;
-                    </button>
-                </div>
-            </div>
+            <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+                itemsPerPage={itemsPerPage}
+                dataLength={filteredManagers.length}
+            />
+
+            <EditManagerModal
+                show={editingManager !== null}
+                onClose={() => setEditingManager(null)}
+                managerData={editingManager}
+                setManagerData={setEditingManager}
+                onSave={handleEditSubmit}
+            />
+
+            <ConfirmDialog
+                show={showConfirm}
+                message="Do you really want to delete this manager? It cannot be undone."
+                onConfirm={confirmDelete}
+                onCancel={() => setShowConfirm(false)}
+            />
         </div>
     );
 };

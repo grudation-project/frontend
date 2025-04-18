@@ -2,7 +2,7 @@ import { useState } from "react";
 import ServiceActions from "./ServiceAction";
 import ServiceTable from "./ServiceTable";
 import AddServiceModal from "./AddService";
-import { useCreateServiceApiMutation } from "../../redux/feature/admin/Services/admin.service.apislice";
+import { useCreateServiceApiMutation, useShowAllServicesApiQuery } from "../../redux/feature/admin/Services/admin.service.apislice";
 import { ToastContainer } from "react-toastify";
 import { toast } from "react-toastify";
 
@@ -12,6 +12,7 @@ const Service = () => {
   const [showModal, setShowModal] = useState(false);
   const [serviceName, setServiceName] = useState("");
   const [createService] = useCreateServiceApiMutation();
+  const { refetch } = useShowAllServicesApiQuery();
 
   const handleAddService = async () => {
     if (!serviceName.trim()) {
@@ -25,6 +26,7 @@ const Service = () => {
       toast.success("Service added successfully!");
       setServiceName("");
       setShowModal(false);
+      refetch();
     } catch (error) {
       console.error("Failed to create service:", error);
       toast.error("Failed to add service. Please try again.");

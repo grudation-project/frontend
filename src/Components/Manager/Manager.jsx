@@ -1,43 +1,90 @@
 import { useState } from "react";
 import ManagerActions from "./components/MangerAction";
 import ManagerTable from "./components/MangerTable";
+import AddManagerModal from "./components/AddManger";
+import { ToastContainer, toast } from "react-toastify";
 
-const initialManagers = [
-  { key: "#302561", name: "hazem", email: "john.doe@example.com", phone: "123-456-7890", department: "IT" },
-  { key: "#702651", name: "Jane Smith", email: "jane.smith@example.com", phone: "987-654-3210", department: "HR" },
-  { key: "#264325", name: "Alice Johnson", email: "alice.johnson@example.com", phone: "555-123-4567", department: "Finance" },
-  { key: "#827562", name: "Bob Brown", email: "bob.brown@example.com", phone: "444-987-6543", department: "Marketing" },
-];
+// API Hooks
+import {
+  useCreateManagerApiMutation,
+  useShowAllManagersApiQuery,
+} from "../../redux/feature/admin/Managers/admin.manager.apislice";
 
-export default function Manager() {
+const Manager = () => {
   const [search, setSearch] = useState("");
-  const [managers, setManagers] = useState(initialManagers);
   const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [showModal, setShowModal] = useState(false);
 
-  const filteredManagers = managers.filter(manager =>
-    manager.name.toLowerCase().includes(search.toLowerCase())
-  );
+  const [managerData, setManagerData] = useState({
+    service_id: "", // Set this dynamically if needed
+    user: {
+      name: "",
+      email: "",
+      password: "manager1Aa",
+      password_confirmation: "manager1Aa",
+    },
+  });
 
-  const deleteManager = (key) => {
-    setManagers(managers.filter(manager => manager.key !== key));
+  const [createManager] = useCreateManagerApiMutation();
+  const { refetch } = useShowAllManagersApiQuery();
+
+  const handleAddManager = async () => {
+    const { service_id, user } = managerData;
+    const { name, email, password, password_confirmation } = user;
+
+    if (!service_id || !name || !email || !password || !password_confirmation) {
+      toast.warn("Please fill all the fields.");
+      return;
+    }
+
+    try {
+      await createManager(managerData).unwrap();
+      toast.success("Manager added successfully!");
+      setManagerData({
+        service_id: "",
+        user: {
+          name: "",
+          email: "",
+          password: "manager1Aa",
+          password_confirmation: "manager1Aa",
+        },
+      });
+      setShowModal(false);
+      refetch();
+    } catch (error) {
+      toast.error("Failed to add manager.");
+      console.error(error);
+    }
   };
 
   return (
     <div className="p-6 mx-auto">
-      <h1 className="text-4xl  font-bold text-gray-800 ">Add Managers</h1>
       <ManagerActions
         search={search}
         setSearch={setSearch}
         itemsPerPage={itemsPerPage}
         setItemsPerPage={setItemsPerPage}
+        setShowModal={setShowModal}
       />
 
-      {/* Manager Table */}
-      <ManagerTable
-        managers={filteredManagers}
-        deleteManager={deleteManager}
-        itemsPerPage={itemsPerPage}
+      <div className={showModal ? "pointer-events-none blur-sm" : ""}>
+        <ManagerTable
+          search={search}
+          itemsPerPage={itemsPerPage}
+        />
+      </div>
+
+      <AddManagerModal
+        show={showModal}
+        onClose={() => setShowModal(false)}
+        managerData={managerData}
+        setManagerData={setManagerData}
+        onAdd={handleAddManager}
       />
+
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
-}
+};
+
+export default Manager;
