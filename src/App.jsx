@@ -9,8 +9,8 @@ import CheckEmail from './pages/auth/CheckEmail';
 import NewPassword from './pages/auth/NewPassword';
 import OtpVerification from './pages/auth/OtpVerification';
 import Home from './pages/home/Home';
-import NotFoundPage from './pages/utils/NotFoundPage';
-import AboutPage from './pages/utils/About';
+import NotFoundPage from './pages/about/NotFoundPage';
+import AboutPage from './pages/about/About';
 import { UserProvider } from './context/userContext';
 
 

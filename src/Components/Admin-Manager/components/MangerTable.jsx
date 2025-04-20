@@ -66,8 +66,8 @@ const ManagerTable = ({ search }) => {
                 id: manager.user.id,
                 name: manager.user.name,
                 email: manager.user.email,
-                password: "", // Leave blank for optional update
-                password_confirmation: "",
+                password: manager.user.password, // Leave blank for optional update
+                password_confirmation: manager.user.password, // Leave blank for optional update
             },
         });
     };

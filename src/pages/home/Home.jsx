@@ -13,7 +13,6 @@ export default function Home() {
 
   const [activePage, setActivePage] = useState("dashboard");
 
-
   if (!user) return <p>Loading...</p>;
 
   return (
