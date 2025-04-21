@@ -2,7 +2,7 @@ import AdminDash from "../../Components/Dashboard/AdminDashBoard";
 import TechniDash from "../../Components/Dashboard/TechniDash";
 import MangerDash from "../../Components/Dashboard/MangerDash";
 import UserDash from "../../Components/Dashboard/UserDash";
-import UserTickets from "../../Components/Tickets/UserTickets";
+import UserTickets from "../../Components/User/Tickets/UserTickets";
 import AdminTickets from "../../Components/Admin-Ticket/AdminTickets";
 import ManagerTickets from "../../Components/Manager/Tickets/ManagerTickets";
 import TechniTickets from "../../Components/Technician/Tickets/TechnicianTickets";

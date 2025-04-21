@@ -1,7 +1,7 @@
 export const showAllTicketsApi = (builder) =>
 	builder.query({
 		query: () => ({
-			url: "api/user/tickets",
+			url: "api/users/tickets?per_page=100",
 			method: "GET",
 		}),
 	});
@@ -9,14 +9,14 @@ export const showAllTicketsApi = (builder) =>
 export const showOneTicketApi = (builder) =>
 	builder.query({
 		query: (id) => ({
-			url: `api/user/tickets/${id}`,
+			url: `api/users/tickets/${id}`,
 			method: "GET",
 		}),
 	});
 export const createTicketApi = (builder) =>
 	builder.mutation({
 		query: (data) => ({
-			url: `api/user/tickets`,
+			url: `api/users/tickets`,
 			method: "POST",
 			body: data,
 		}),
@@ -25,7 +25,7 @@ export const createTicketApi = (builder) =>
 export const updateTicketApi = (builder) =>
 	builder.mutation({
 		query: ({ id, data }) => ({
-			url: `api/user/tickets/${id}`,
+			url: `api/users/tickets/${id}`,
 			method: "PUT",
 			body: data,
 		}),
