@@ -1,5 +1,6 @@
+/* eslint-disable react/prop-types */
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useUser } from "../../context/userContext"; // Import user role context
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import MenuIcon from "@mui/icons-material/Menu"; // Hamburger Icon
@@ -8,10 +9,15 @@ import Logo from "../../images/logo bg-black.png";
 import { menuConfig } from "./menuConfig";
 import getUserRole from "../../context/userType";
 
-// eslint-disable-next-line react/prop-types
 export default function Sidebar({ activePage, setActivePage }) {
     const { user } = useUser(); // Get user role from context
     const [isOpen, setIsOpen] = useState(false); // Sidebar state for mobile
+    const navigate = useNavigate(); // Navigation hook
+
+    const handleSignOut = () => {
+        localStorage.clear(); // Clear localStorage
+        navigate("/auth/login"); // Navigate to login page
+    };
 
     return (
         <>
@@ -38,7 +44,7 @@ export default function Sidebar({ activePage, setActivePage }) {
                         {/* Sidebar Menu */}
                         <ul className="space-y-2 font-medium mt-8">
                             {menuConfig[getUserRole(user.type)]?.map((item) => (
-                                <li key={item.id} className="mt-5 ">
+                                <li key={item.id} className="mt-5">
                                     <button
                                         onClick={() => {
                                             setActivePage(item.id);
@@ -57,13 +63,13 @@ export default function Sidebar({ activePage, setActivePage }) {
 
                     {/* Logout Button */}
                     <div className="mb-4">
-                        <Link
-                            to="/auth/login"
+                        <button
+                            onClick={handleSignOut}
                             className="flex items-center p-2 rounded-lg text-red-600 transition hover:bg-[#051754] hover:text-white"
                         >
                             <ExitToAppIcon />
                             <span className="ms-3">Sign out</span>
-                        </Link>
+                        </button>
                     </div>
                 </div>
             </aside>

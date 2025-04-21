@@ -1,7 +1,7 @@
 export const showAllTicketsApi = (builder) =>
 	builder.query({
 		query: () => ({
-			url: "api/technicians/tickets",
+			url: "api/technicians/tickets?per_page=100",
 			method: "GET",
 		}),
 	});
@@ -18,6 +18,6 @@ export const finishTicketApi = (builder) =>
 	builder.mutation({
 		query: (id) => ({
 			url: `api/technicians/tickets/${id}/finish`,
-			method: "PATCH",
+			method: "POST",
 		}),
 	});

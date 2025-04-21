@@ -3,13 +3,13 @@ import * as ticketApi from "./tech.ticket.endPoint";
 
 export const techTicketSlice = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
-		getAllTicketsApi: ticketApi.showAllTicketsApi(builder),
-		getOneTicketApi: ticketApi.showOneTicketApi(builder),
-		assignTicketApi: ticketApi.AssignTicketApi(builder),
-		finishTicketApi: ticketApi.finishTicketApi(builder),
+		getAllTicketsTech: ticketApi.showAllTicketsApi(builder),
+		getOneTicketTech: ticketApi.showOneTicketApi(builder),
+		finishTicketTech: ticketApi.finishTicketApi(builder),
 	}),
 });
 export const {
-    useGetAllTicketsApiQuery,
-    useGetOneTicketApiQuery,
+	useGetAllTicketsTechQuery,
+	useGetOneTicketTechQuery,
+	useFinishTicketTechMutation,
 } = techTicketSlice;

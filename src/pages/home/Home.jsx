@@ -1,26 +1,38 @@
-import { useState } from "react";
-import { useUser } from "../../context/userContext"; // Import user role context
-import Sidebar from "../../Components/SideBar/SideBar"; // Import Sidebar Component
+import { useState, useEffect } from "react";
+import { useUser } from "../../context/userContext";
+import Sidebar from "../../Components/SideBar/SideBar";
 import Navbar from "../../Components/Navbar/NavbarDash";
 import { dashboardContent } from "./DashContent";
 import getUserRole from "../../context/userType";
 import { useGetProfileQuery } from "../../redux/feature/auth/authApiSlice";
+import LoadingSpinner from "../../common/Loadingspinner";
 
 export default function Home() {
-  const { user } = useUser(); // Get user type from context
-  const { data: response } = useGetProfileQuery(); // Fetch user profile
-  const profile = response?.data; // Extract profile data from response
+  const { user } = useUser();
+  const { data: response, refetch, isFetching } = useGetProfileQuery();
+  const profile = response?.data;
 
-  const [activePage, setActivePage] = useState("dashboard");
+  const [activePage, setActivePage] = useState(() => {
+    return localStorage.getItem("activePage") || "dashboard";
+  });
 
-  if (!user) return <p>Loading...</p>;
+  // Save active page in localStorage when it changes
+  useEffect(() => {
+    localStorage.setItem("activePage", activePage);
+  }, [activePage]);
+
+  // Refetch profile when user changes (e.g., after login)
+  useEffect(() => {
+    if (user) {
+      refetch();
+    }
+  }, [user, refetch]);
+
+  if (!user || isFetching) return <LoadingSpinner />;
 
   return (
-
     <div className="flex">
-      {/* Sidebar Component */}
       <Sidebar activePage={activePage} setActivePage={setActivePage} />
-      {/* Main Content */}
       <main className="sm:ml-64 w-full">
         <Navbar UserName={profile?.name} Image={profile?.avatar} setActivePage={setActivePage} />
         <div className="p-8 mt-14">

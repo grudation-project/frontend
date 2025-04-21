@@ -4,8 +4,8 @@ import MangerDash from "../../Components/Dashboard/MangerDash";
 import UserDash from "../../Components/Dashboard/UserDash";
 import UserTickets from "../../Components/Tickets/UserTickets";
 import AdminTickets from "../../Components/Admin-Ticket/AdminTickets";
-import ManagTickets from "../../Components/Tickets/ManagTickets";
-import TechniTickets from "../../Components/Tickets/TecniTickets";
+import ManagerTickets from "../../Components/Manager/Tickets/ManagerTickets";
+import TechniTickets from "../../Components/Technician/Tickets/TechnicianTickets";
 import Manager from "../../Components/Admin-Manager/Manager";
 import Service from "../../Components/Admin-Service/Service";
 import ChatUI from "../../Components/Chat/ChatUi";
@@ -15,6 +15,6 @@ import Technician from "../../Components/Manager/Technician/Technician";
 export const dashboardContent = {
     admin: { dashboard: <AdminDash />, tickets: <AdminTickets />, manager: <Manager />, service: <Service />, profile: <Profile /> },
     user: { dashboard: <UserDash />, tickets: <UserTickets />, chat: <ChatUI />, profile: <Profile /> },
-    manager: { dashboard: <MangerDash />, tickets: <ManagTickets />, technician: <Technician />, chat: <ChatUI />, profile: <Profile /> },
+    manager: { dashboard: <MangerDash />, tickets: <ManagerTickets />, technician: <Technician />, chat: <ChatUI />, profile: <Profile /> },
     technician: { dashboard: <TechniDash />, tickets: <TechniTickets />, chat: <ChatUI />, profile: <Profile /> },
 };

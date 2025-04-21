@@ -1,7 +1,7 @@
 export const showAllTicketsApi = (builder) =>
     builder.query({
         query: () => ({
-            url: "api/admin/tickets",
+            url: "api/admin/tickets?per_page=100",
             method: "GET",
         }),
     });

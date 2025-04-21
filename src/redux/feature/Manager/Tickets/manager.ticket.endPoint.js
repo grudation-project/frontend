@@ -1,7 +1,7 @@
 export const showAllTicketsApi = (builder) =>
 	builder.query({
 		query: () => ({
-			url: "api/manager/tickets",
+			url: "api/managers/tickets?per_page=100",
 			method: "GET",
 		}),
 	});
@@ -9,23 +9,23 @@ export const showAllTicketsApi = (builder) =>
 export const showOneTicketApi = (builder) =>
 	builder.query({
 		query: (id) => ({
-			url: `api/manager/tickets/${id}`,
+			url: `api/managers/tickets/${id}`,
 			method: "GET",
 		}),
 	});
 export const AssignTicketApi = (builder) =>
 	builder.mutation({
-		query: (data) => ({
-			url: `api/manager/tickets/${data.id}/assign`,
-			method: "PATCH",
-			body: data,
+		query: ({ id, technician_id }) => ({
+			url: `api/managers/tickets/${id}/assign`,
+			method: "POST",
+			body: { technician_id },
 		}),
 	});
 
 export const finishTicketApi = (builder) =>
-    builder.mutation({
-        query: (id) => ({
-            url: `api/manager/tickets/${id}/finish`,
-            method: "PATCH",
-        }),
-    });
+	builder.mutation({
+		query: (id) => ({
+			url: `api/managers/tickets/${id}/finish`,
+			method: "POST",
+		}),
+	});
