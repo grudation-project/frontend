@@ -1,11 +1,17 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import AddAlertIcon from "@mui/icons-material/AddAlert";
+import { Badge } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore"; // Dropdown arrow
+import NotificationModal from "../Notifications/Notification"; // Import the NotificationModal component
+import { useGetUnreadNotifiQuery } from "../../redux/feature/notifications/notifi.apislice";
 
 // eslint-disable-next-line react/prop-types
 export default function Navbar({ UserName, Image, setActivePage }) {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+  const { data , refetch} = useGetUnreadNotifiQuery();
+  const unreadCount = data?.data?.unreadNotificationsCount;
 
   return (
     <nav className="fixed top-0 left-64 h-20 z-50 w-[calc(100%-16rem)] bg-white border-b border-gray-200 px-6 py-3 shadow-md flex items-center justify-between">
@@ -18,10 +24,21 @@ export default function Navbar({ UserName, Image, setActivePage }) {
       {/* Right Section: Notifications & Profile */}
       <div className="flex items-center gap-6">
         {/* Notification Icon */}
-        <button className="relative text-gray-500 hover:text-gray-700">
-          <AddAlertIcon fontSize="medium" />
+        <button onClick={() => {setIsNotificationOpen((prev) => !prev)
+          refetch(); // Refetch notifications when the button is clicked
+        }} className="relative text-gray-500 hover:text-gray-700">
+          <Badge
+            badgeContent={unreadCount}
+            color="error"
+            overlap="circular"
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+          >
+            <AddAlertIcon />
+          </Badge>
         </button>
-
         {/* Profile Dropdown */}
         <div className="relative">
           <button
@@ -62,6 +79,9 @@ export default function Navbar({ UserName, Image, setActivePage }) {
           )}
         </div>
       </div>
+      {isNotificationOpen && (
+        <NotificationModal />
+      )}
     </nav>
   );
 }

@@ -52,12 +52,10 @@ export default function ProfileUpdate() {
   const handleAvatarChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      // Validate the file type (only images)
       if (!file.type.startsWith("image/")) {
         toast.error("Please upload a valid image file.");
         return;
       }
-
       // Set the selected avatar file and its preview
       setAvatar(file);
       setAvatarPreview(URL.createObjectURL(file));

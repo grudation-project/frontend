@@ -8,7 +8,7 @@ export default function ProfileCard({ profile, onEditClick, avatarPreview }) {
           <div className="flex items-center space-x-4">
             <div className="relative">
               {avatarPreview ? (
-                <img src={avatarPreview} alt="Avatar" className="w-20 h-20 rounded-full object-cover border-4 border-white shadow-md" />
+                <img src={avatarPreview} alt="Avatar" className="w-40 h-40 rounded-full object-cover border-4 border-white shadow-md" />
               ) : (
                 <div className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-100 to-indigo-200 flex items-center justify-center border-4 border-white shadow-md">
                   <span className="text-2xl text-indigo-500">👤</span>

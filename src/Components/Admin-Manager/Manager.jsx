@@ -13,15 +13,15 @@ import {
 const Manager = () => {
   const [search, setSearch] = useState("");
   const [itemsPerPage, setItemsPerPage] = useState(10);
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);  
 
   const [managerData, setManagerData] = useState({
     service_id: "", // Set this dynamically if needed
     user: {
       name: "",
       email: "",
-      password: "manager1Aa",
-      password_confirmation: "manager1Aa",
+      password: "manager123",
+      password_confirmation: "manager123",
     },
   });
 
