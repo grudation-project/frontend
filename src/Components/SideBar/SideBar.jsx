@@ -23,10 +23,10 @@ export default function Sidebar({ activePage, setActivePage }) {
         <>
             {/* Hamburger Button for Mobile */}
             <button
-                className="md:hidden fixed top-4 left-4 z-50 bg-gray-900 text-white p-2 rounded-full shadow-lg"
+                className="md:hidden fixed top-22  left-4 z-50 bg-gray-900 text-white p-2  rounded-full shadow-lg "
                 onClick={() => setIsOpen(!isOpen)}
             >
-                {isOpen ? <CloseIcon fontSize="large" /> : <MenuIcon fontSize="large" />}
+                {isOpen ? <CloseIcon fontSize="medium" /> : <MenuIcon fontSize="medium" />}
             </button>
 
             {/* Sidebar */}

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import AddAlertIcon from "@mui/icons-material/AddAlert";
+// import AddAlertIcon from "@mui/icons-material/AddAlert";
+import NotificationsIcon from "@mui/icons-material/Notifications";
 import { Badge } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore"; // Dropdown arrow
 import NotificationModal from "../Notifications/Notification"; // Import the NotificationModal component
@@ -10,11 +11,11 @@ import { useGetUnreadNotifiQuery } from "../../redux/feature/notifications/notif
 export default function Navbar({ UserName, Image, setActivePage }) {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
-  const { data , refetch} = useGetUnreadNotifiQuery();
+  const { data, refetch } = useGetUnreadNotifiQuery();
   const unreadCount = data?.data?.unreadNotificationsCount;
 
   return (
-    <nav className="fixed top-0 left-64 h-20 z-50 w-[calc(100%-16rem)] bg-white border-b border-gray-200 px-6 py-3 shadow-md flex items-center justify-between">
+    <nav className="fixed top-0 left-0 md:left-64 h-20 z-50 w-full md:w-[calc(100%-16rem)] bg-white border-b border-gray-200 px-4 md:px-6 py-3 shadow-md flex items-center justify-between">
       {/* Left Section: Greeting & Date */}
       <div>
         <p className="text-lg font-semibold text-gray-700">Hello {UserName}</p>
@@ -24,7 +25,8 @@ export default function Navbar({ UserName, Image, setActivePage }) {
       {/* Right Section: Notifications & Profile */}
       <div className="flex items-center gap-6">
         {/* Notification Icon */}
-        <button onClick={() => {setIsNotificationOpen((prev) => !prev)
+        <button onClick={() => {
+          setIsNotificationOpen((prev) => !prev)
           refetch(); // Refetch notifications when the button is clicked
         }} className="relative text-gray-500 hover:text-gray-700">
           <Badge
@@ -36,7 +38,7 @@ export default function Navbar({ UserName, Image, setActivePage }) {
               horizontal: 'right',
             }}
           >
-            <AddAlertIcon />
+            <NotificationsIcon />
           </Badge>
         </button>
         {/* Profile Dropdown */}
