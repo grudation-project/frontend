@@ -19,24 +19,21 @@ code {
 }
 
 
-/*  */
 /* sidebar.css */
 .sidebar {
-  background-color: #1e293b; /* لون داكن أنيق */
+  background-color: #1e293b; 
   color: white;
-  height: 100vh; /* امتداد على طول الشاشة */
+  height: 100vh; 
   padding: 15px;
-  border-right: 2px solid rgba(255, 255, 255, 0.1); /* حد جانبي خفيف */
+  border-right: 2px solid rgba(255, 255, 255, 0.1);
   transition: all 0.3s ease-in-out;
 }
 
-/* تأثير عند التصغير */
 .sidebar.collapsed {
   width: 80px;
   transition: width 0.3s ease-in-out;
 }
 
-/* تنسيق عناصر القائمة */
 .sidebar .menu-item {
   padding: 12px;
   font-size: 16px;
@@ -47,7 +44,6 @@ code {
   transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
 }
 
-/* تأثير عند تمرير الفأرة */
 .sidebar .menu-item:hover {
   background-color: #3b82f6;
   transform: scale(1.05);
@@ -59,12 +55,10 @@ code {
   transition: transform 0.3s ease-in-out;
 }
 
-/* تأثير على الأيقونات عند التحويم */
 .sidebar .menu-item:hover svg {
   transform: rotate(10deg);
 }
 
-/* تأثير عند النقر على زر التصغير */
 .toggle-btn {
   background-color: transparent;
   border: none;
@@ -86,10 +80,3 @@ code {
   background-color: rgba(255, 255, 255, 0.2);
   border-radius: 6px;
 }
-/* .sayed {
-  background-color: radial-gradient(circle,_#081D66,_#03091E);
-  background-image: url('../src/images/pattern.jpg');
-  background-size: cover;
-  background-repeat: no-repeat;
-  z-index: -1;
-} */
