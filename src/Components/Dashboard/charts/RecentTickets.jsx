@@ -1,47 +1,23 @@
-import { FaTrash, FaEdit, FaPaperPlane, FaRegCircle } from "react-icons/fa";
-import { useUser } from "../../../context/userContext";
+/* eslint-disable react/prop-types */
+const statusMap = {
+    0: { label: "Open", color: "bg-yellow-100 text-yellow-800" },
+    1: { label: "In Progress", color: "bg-blue-100 text-blue-800" },
+    2: { label: "Closed", color: "bg-green-100 text-green-800" },
+};
 
-const tickets = [
-    {
-        id: 1,
-        subject: "Lorem ipsum dolor sit amet",
-        user: "Hazem Sharaf",
-        status: "Completed",
-        date: "Mon, Dec 12",
-        avatar: "https://i.pravatar.cc/40?img=1",
-        statusColor: "bg-green-100 text-green-600",
-    },
-    {
-        id: 2,
-        subject: "Lorem ipsum dolor sit amet",
-        user: "Hazem Sharaf",
-        status: "Processing",
-        date: "Mon, Dec 12",
-        avatar: "https://i.pravatar.cc/40?img=2",
-        statusColor: "bg-orange-100 text-orange-600",
-    },
-    {
-        id: 3,
-        subject: "Lorem ipsum dolor sit amet",
-        user: "Hazem Sharaf",
-        status: "Processing",
-        date: "Mon, Dec 12",
-        avatar: "https://i.pravatar.cc/40?img=3",
-        statusColor: "bg-orange-100 text-orange-600",
-    },
-    {
-        id: 4,
-        subject: "Lorem ipsum dolor sit amet",
-        user: "Hazem Sharaf",
-        status: "Pending",
-        date: "Mon, Dec 12",
-        avatar: "https://i.pravatar.cc/40?img=4",
-        statusColor: "bg-gray-200 text-gray-600",
-    },
-];
+const formatDate = (dateStr) => {
+    const date = new Date(dateStr);
+    return date.toLocaleString("en-US", {
+        dateStyle: "medium",
+        timeStyle: "short",
+    });
+};
 
-const RecentTicketsTable = () => {
-    const { user } = useUser();
+const RecentTicketsTable = ({ recent_tickets = [] }) => {
+    const sortedTickets = [...recent_tickets].sort(
+        (a, b) => new Date(b.created_at) - new Date(a.created_at)
+    );
+
     return (
         <div
             className="bg-white p-4 md:p-6 rounded-xl shadow-lg"
@@ -51,64 +27,45 @@ const RecentTicketsTable = () => {
                 boxShadow: "0px 4px 10px rgba(13, 27, 68, 0.2)",
             }}
         >
-            {/* Table Header */}
             <div className="overflow-x-auto">
                 <table className="w-full border-collapse">
                     <thead>
                         <tr className="text-gray-600 text-left text-sm md:text-md font-semibold border-b border-gray-300">
-                            <th className="py-3 px-4">SUBJECT</th>
+                            <th className="py-3 px-4">ID</th>
+                            <th className="py-3 px-4">MANAGER</th>
+                            <th className="py-3 px-4">USER</th>
                             <th className="py-3 px-4">STATUS</th>
                             <th className="py-3 px-4">DATE</th>
-                            <th className="py-3 px-4">ACTIONS</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {tickets.map((ticket) => (
-                            <tr key={ticket.id} className="border-b border-gray-200 hover:bg-gray-100 transition">
-                                {/* Subject & User */}
-                                <td className="py-3 px-4 flex items-center space-x-3">
-                                    <img src={ticket.avatar} alt="User" className="w-8 h-8 rounded-full" />
-                                    <div>
-                                        <p className="text-gray-800 text-sm font-medium">{ticket.subject}</p>
-                                        <p className="text-gray-500 text-xs">{ticket.user} 👤</p>
-                                    </div>
-                                </td>
+                        {sortedTickets?.map((ticket) => {
+                            const statusInfo = statusMap[ticket.status] || {
+                                label: "Unknown",
+                                color: "bg-gray-200 text-gray-800",
+                            };
 
-                                {/* Status */}
-                                <td className="py-3 px-4">
-                                    <span className={`px-3 py-1 text-xs font-medium rounded-lg ${ticket.statusColor}`}>
-                                        {ticket.status}
-                                    </span>
-                                </td>
-
-                                {/* Date */}
-                                <td className="py-3 px-4 text-gray-500 text-sm">{ticket.date}</td>
-
-                                {/* Actions */}
-                                <td className="py-3 px-4 flex items-center space-x-3">
-                                    <button className="text-red-500 hover:text-red-700">
-                                        <FaTrash />
-                                    </button>
-                                    <button className="text-gray-600 hover:text-black">
-                                        <FaEdit />
-                                    </button>
-                                    {
-                                        user.type == 2 && (
-                                            <button className="text-gray-600 hover:text-black">
-                                                <FaPaperPlane />
-                                            </button>
-                                        )
-                                    }
-                                    {
-                                        user.type == 3 && (
-                                            <button className="text-gray-600 hover:text-black">
-                                                <FaRegCircle />
-                                            </button>
-                                        )
-                                    }
-                                </td>
-                            </tr>
-                        ))}
+                            return (
+                                <tr
+                                    key={ticket.id}
+                                    className="border-b border-gray-200 hover:bg-gray-100 transition"
+                                >
+                                    <td className="py-3 px-4 text-gray-500 text-sm">{ticket.id}</td>
+                                    <td className="py-3 px-4">{ticket.manager ?? "—"}</td>
+                                    <td className="py-3 px-4">{ticket.user ?? "—"}</td>
+                                    <td className="py-3 px-4">
+                                        <span
+                                            className={`px-4 py-2 text-xs font-medium rounded-lg ${statusInfo.color}`}
+                                        >
+                                            {statusInfo.label}
+                                        </span>
+                                    </td>
+                                    <td className="py-3 px-4 text-gray-500 text-sm">
+                                        {formatDate(ticket.created_at)}
+                                    </td>
+                                </tr>
+                            );
+                        })}
                     </tbody>
                 </table>
             </div>

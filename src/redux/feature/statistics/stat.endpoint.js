@@ -9,15 +9,15 @@ export const getAdminStat = (builder) =>
 export const getUserStat = (builder) =>
 	builder.query({
 		query: (params) => ({
-			url: "api/user/statistics",
+			url: "api/users/statistics",
 			method: "GET",
 			params,
 		}),
 	});
 export const getTechnicianStat = (builder) =>
 	builder.query({
-		query: (params) => ({
-			url: "api/technician/statistics",
+		query: (params) => ({   
+			url: "api/technicians/statistics",
 			method: "GET",
 			params,
 		}),
@@ -25,7 +25,7 @@ export const getTechnicianStat = (builder) =>
 export const getManagerStat = (builder) =>
 	builder.query({
 		query: (params) => ({
-			url: "api/manager/statistics",
+			url: "api/managers/statistics",
 			method: "GET",
 			params,
 		}),

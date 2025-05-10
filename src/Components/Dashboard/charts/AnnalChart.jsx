@@ -1,16 +1,8 @@
+/* eslint-disable react/prop-types */
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Area } from "recharts";
 
-const data = [
-    { year: "2021", tickets: 2000 },
-    { year: "2022", tickets: 1500 },
-    { year: "2023", tickets: 1800 },
-    { year: "2024", tickets: 2500 },
-    { year: "2025", tickets: 4000 },
-    { year: "2026", tickets: 3500 },
-    { year: "2027", tickets: 3000 },
-];
 
-const AnnualTicketsChart = () => {
+const AnnualTicketsChart = ({data}) => {
     return (
         <div
             className="bg-white p-4 md:p-6 rounded-xl shadow-lg flex flex-col"
@@ -48,8 +40,8 @@ const AnnualTicketsChart = () => {
                         </linearGradient>
                     </defs>
 
-                    <Area type="monotone" dataKey="tickets" stroke="none" fill="url(#greenGradient)" />
-                    <Line type="monotone" dataKey="tickets" stroke="#22C55E" strokeWidth={2.5} />
+                    <Area type="monotone" dataKey="count" stroke="none" fill="url(#greenGradient)" />
+                    <Line type="monotone" dataKey="count" stroke="#22C55E" strokeWidth={2.5} />
                 </LineChart>
             </ResponsiveContainer>
         </div>
