@@ -33,9 +33,9 @@ export default function Home() {
   return (
     <div className="flex">
       <Sidebar activePage={activePage} setActivePage={setActivePage} />
-      <main className="sm:ml-64 w-full">
+      <main className="sm:ml-64 w-full responsive-fill">
         <Navbar UserName={profile?.name} Image={profile?.avatar} setActivePage={setActivePage} />
-        <div className="p-8 mt-14">
+        <div className="p-8 mt-14 ">
           {dashboardContent[getUserRole(user.type)]?.[activePage] || <p>Unauthorized</p>}
         </div>
       </main>

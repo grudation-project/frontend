@@ -95,7 +95,7 @@ export default function Notifications() {
                         <div
                             key={notification.id}
                             onClick={() => handleNotificationClick(notification)}
-                            className={`flex items-start gap-3 p-3 rounded-md cursor-pointer hover:bg-gray-100 ${notification.seen ? "bg-white" : "bg-gray-50"
+                            className={`flex items-start gap-3 p-3 rounded-md cursor-pointer hover:bg-blue-100 ${notification.seen ? "bg-white" : "bg-blue-50"
                                 }`}
                         >
                             {/* Icon */}
