@@ -13,7 +13,9 @@ const formatDate = (dateStr) => {
     });
 };
 
-const RecentTicketsTable = ({ recent_tickets = [] }) => {
+const RecentTicketsTable = ({ recent_tickets }) => {
+    if (!Array.isArray(recent_tickets)) return null;
+
     const sortedTickets = [...recent_tickets].sort(
         (a, b) => new Date(b.created_at) - new Date(a.created_at)
     );
@@ -32,27 +34,33 @@ const RecentTicketsTable = ({ recent_tickets = [] }) => {
                     <thead>
                         <tr className="text-gray-600 text-left text-sm md:text-md font-semibold border-b border-gray-300">
                             <th className="py-3 px-4">ID</th>
-                            <th className="py-3 px-4">MANAGER</th>
-                            <th className="py-3 px-4">USER</th>
-                            <th className="py-3 px-4">STATUS</th>
-                            <th className="py-3 px-4">DATE</th>
+                            <th className="py-3 px-4">Title</th>
+                            <th className="py-3 px-4">Service</th>
+                            <th className="py-3 px-4">Manager</th>
+                            <th className="py-3 px-4">User</th>
+                            <th className="py-3 px-4">Technician</th>
+                            <th className="py-3 px-4">Status</th>
+                            <th className="py-3 px-4">Date</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {sortedTickets?.map((ticket) => {
-                            const statusInfo = statusMap[ticket.status] || {
+                        {sortedTickets.map((ticket) => {
+                            const statusInfo = statusMap[ticket?.status] || {
                                 label: "Unknown",
                                 color: "bg-gray-200 text-gray-800",
                             };
 
                             return (
                                 <tr
-                                    key={ticket.id}
+                                    key={ticket?.id}
                                     className="border-b border-gray-200 hover:bg-gray-100 transition"
                                 >
-                                    <td className="py-3 px-4 text-gray-500 text-sm">{ticket.id}</td>
-                                    <td className="py-3 px-4">{ticket.manager ?? "—"}</td>
-                                    <td className="py-3 px-4">{ticket.user ?? "—"}</td>
+                                    <td className="py-3 px-4 text-gray-500 text-sm">{ticket?.id}</td>
+                                    <td className="py-3 px-4">{ticket?.title ?? "—"}</td>
+                                    <td className="py-3 px-4">{ticket?.service?.name ?? "—"}</td>
+                                    <td className="py-3 px-4">{ticket?.manager?.user?.name ?? "—"}</td>
+                                    <td className="py-3 px-4">{ticket?.user?.name ?? "—"}</td>
+                                    <td className="py-3 px-4">{ticket?.technician?.user?.name ?? "—"}</td>
                                     <td className="py-3 px-4">
                                         <span
                                             className={`px-4 py-2 text-xs font-medium rounded-lg ${statusInfo.color}`}
@@ -61,7 +69,7 @@ const RecentTicketsTable = ({ recent_tickets = [] }) => {
                                         </span>
                                     </td>
                                     <td className="py-3 px-4 text-gray-500 text-sm">
-                                        {formatDate(ticket.created_at)}
+                                        {formatDate(ticket?.created_at)}
                                     </td>
                                 </tr>
                             );

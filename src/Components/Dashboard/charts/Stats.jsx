@@ -62,7 +62,7 @@ const StatsCards = ({ stats }) => {
 
                         {/* Percentage Text Inside Circle */}
                         <span className="absolute text-sm font-semibold text-gray-900">
-                            {stat.percentage}%
+                            {stat.percentage.toFixed(0)}%
                         </span>
                     </div>
                 </div>

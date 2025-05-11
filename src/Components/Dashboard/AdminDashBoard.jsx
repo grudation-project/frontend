@@ -5,6 +5,7 @@ import { calcPercent } from "./helper";
 const AdminDash = () => {
   const { data } = useGetAdminStatisticsQuery();
   const statsData = data?.data || {};
+  console.log(statsData);
 
   const stats = [
     { label: "All tickets", value: statsData.all_tickets, percentage: 100 },
@@ -19,7 +20,7 @@ const AdminDash = () => {
     <DashboardLayout
       stats={stats}
       annualTickets={statsData.annual_tickets_average}
-      recentTickets={statsData.recent_tickets}
+      recentTickets={statsData.recent_tickets || []}
     />
   );
 };

@@ -18,7 +18,7 @@ const MangerDash = () => {
     <DashboardLayout
       stats={stats}
       annualTickets={statsData.annual_tickets_average}
-      recentTickets={statsData.recent_tickets}
+      recentTickets={statsData.recent_tickets || []}
     />
   );
 };
