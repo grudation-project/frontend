@@ -8,9 +8,9 @@ const TechniDash = () => {
   console.log(statsData);
 
   const stats = [
-    { label: "All tickets", value: statsData.all_tickets, percentage: 100 },
-    { label: "Closed tickets", value: statsData.closed_tickets, percentage: calcPercent(statsData.closed_tickets, statsData.all_tickets) },
-    { label: "In Progress tickets", value: statsData.in_processing_tickets, percentage: calcPercent(statsData.in_processing_tickets, statsData.all_tickets) },
+    { label: "stats.allTickets", value: statsData.all_tickets, percentage: 100 },
+    { label: "stats.closedTickets", value: statsData.closed_tickets, percentage: calcPercent(statsData.closed_tickets, statsData.all_tickets) },
+    { label: "stats.inProgressTickets", value: statsData.in_processing_tickets, percentage: calcPercent(statsData.in_processing_tickets, statsData.all_tickets) },
   ];
 
   return (

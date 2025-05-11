@@ -1,14 +1,16 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-// import AddAlertIcon from "@mui/icons-material/AddAlert";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+import { useTranslation } from "react-i18next";
 import { Badge } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore"; // Dropdown arrow
 import NotificationModal from "../Notifications/Notification"; // Import the NotificationModal component
 import { useGetUnreadNotifiQuery } from "../../redux/feature/notifications/notifi.apislice";
+import LanguageSelector from "../../i18n/languageSelector";
 
 // eslint-disable-next-line react/prop-types
 export default function Navbar({ UserName, Image, setActivePage }) {
+  const { t } = useTranslation();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const { data, refetch } = useGetUnreadNotifiQuery();
@@ -18,12 +20,14 @@ export default function Navbar({ UserName, Image, setActivePage }) {
     <nav className="fixed top-0 left-0 md:left-64 h-20 z-50 w-full md:w-[calc(100%-16rem)] bg-white border-b border-gray-200 px-4 md:px-6 py-3 shadow-md flex items-center justify-between">
       {/* Left Section: Greeting & Date */}
       <div>
-        <p className="text-lg font-semibold text-gray-700">Hello {UserName}</p>
-        <p className="text-xs text-gray-500">December 12TH 2024</p>
+        <p className="text-lg font-semibold text-gray-700">{t("greeting")} {UserName}</p>
+        <p className="text-xs text-gray-500">{t("date")}</p>
       </div>
 
       {/* Right Section: Notifications & Profile */}
       <div className="flex items-center gap-6">
+        {/* Language Switcher */}
+        <LanguageSelector />
         {/* Notification Icon */}
         <button onClick={() => {
           setIsNotificationOpen((prev) => !prev)
@@ -63,19 +67,19 @@ export default function Navbar({ UserName, Image, setActivePage }) {
                 onClick={() => setActivePage("profile")}
                 className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
               >
-                Profile
+                {t("profile")}
               </button>
               <Link
                 to="/settings"
                 className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
               >
-                Settings
+                {t("settings")}
               </Link>
               <Link
                 to="/auth/login"
                 className="block px-4 py-2 text-red-600 hover:bg-gray-100"
               >
-                Logout
+                {t("logout")}
               </Link>
             </div>
           )}

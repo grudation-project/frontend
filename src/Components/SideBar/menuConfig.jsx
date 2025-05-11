@@ -6,27 +6,27 @@ import { ChatBubble} from "@mui/icons-material";
 // Sidebar Menu Configuration
 export const menuConfig = {
   admin: [
-    { id: "dashboard", icon: <DashboardIcon />, label: "Dashboard" },
-    { id: "tickets", icon: <ConfirmationNumberIcon />, label: "All Tickets" },
-    { id: "manager", icon: <ManageAccountsIcon />, label: "Add Manager" },
-    { id: "service", icon: <RadioButtonCheckedIcon />, label: "Add Service" },
+    { id: "dashboard", icon: <DashboardIcon />, labelKey: "menu.dashboard" },
+    { id: "tickets", icon: <ConfirmationNumberIcon />, labelKey: "menu.allTickets" },
+    { id: "manager", icon: <ManageAccountsIcon />, labelKey: "menu.addManager" },
+    { id: "service", icon: <RadioButtonCheckedIcon />, labelKey: "menu.addService" },
   ],
   user: [
-    { id: "dashboard", icon: <DashboardIcon />, label: "Dashboard" },
-    { id: "tickets", icon: <ConfirmationNumberIcon />, label: "My Tickets" },
-    { id: "chat", icon: <ChatBubble />, label: "Chat" },
+    { id: "dashboard", icon: <DashboardIcon />, labelKey: "menu.dashboard" },
+    { id: "tickets", icon: <ConfirmationNumberIcon />, labelKey: "menu.myTickets" },
+    { id: "chat", icon: <ChatBubble />, labelKey: "menu.chat" },
   ],
   manager: [
-    { id: "dashboard", icon: <DashboardIcon />, label: "Dashboard" },
-    { id: "tickets", icon: <ConfirmationNumberIcon />, label: "Manage Tickets" },
-    { id: "technician", icon: <ManageAccountsIcon />, label: "Add Technician" },
-    { id: "chat", icon: <ChatBubble />, label: "Chat" },
-
+    { id: "dashboard", icon: <DashboardIcon />, labelKey: "menu.dashboard" },
+    { id: "tickets", icon: <ConfirmationNumberIcon />, labelKey: "menu.manageTickets" },
+    { id: "technician", icon: <ManageAccountsIcon />, labelKey: "menu.addTechnician" },
+    { id: "chat", icon: <ChatBubble />, labelKey: "menu.chat" },
   ],
   technician: [
-    { id: "dashboard", icon: <DashboardIcon />, label: "Dashboard" },
-    { id: "tickets", icon: <ConfirmationNumberIcon />, label: "Assigned Tickets" },
-    { id: "chat", icon: <ChatBubble />, label: "Chat" },
+    { id: "dashboard", icon: <DashboardIcon />, labelKey: "menu.dashboard" },
+    { id: "tickets", icon: <ConfirmationNumberIcon />, labelKey: "menu.assignedTickets" },
+    { id: "chat", icon: <ChatBubble />, labelKey: "menu.chat" },
   ],
 };
+
 

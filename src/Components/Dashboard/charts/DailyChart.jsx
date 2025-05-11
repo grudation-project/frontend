@@ -1,5 +1,6 @@
 import { BarChart, Bar, XAxis, Tooltip, ResponsiveContainer } from "recharts";
 import { FaReply } from "react-icons/fa"; // Reply Icon
+import { useTranslation } from "react-i18next";
 
 const data = [
   { name: "Sat", value: 30 },
@@ -12,6 +13,7 @@ const data = [
 ];
 
 const DailyRespondChart = () => {
+  const { t } = useTranslation();
   return (
     <div
       className="bg-white p-4 md:p-6 rounded-xl shadow-lg flex flex-col"
@@ -23,7 +25,7 @@ const DailyRespondChart = () => {
     >
       {/* Title with Icon */}
       <div className="flex items-center gap-2 text-gray-700 font-medium text-sm md:text-lg mb-2">
-        Daily Respond
+        {t("stats.dailyRespond")}
         <FaReply className="text-gray-400 text-[10px] md:text-sm" />
       </div>
 

@@ -7,11 +7,11 @@ const MangerDash = () => {
   const statsData = data?.data || {};
 
   const stats = [
-    { label: "All tickets", value: statsData.all_tickets, percentage: 100 },
-    { label: "Open tickets", value: statsData.opened_tickets, percentage: calcPercent(statsData.opened_tickets, statsData.all_tickets) },
-    { label: "Closed tickets", value: statsData.closed_tickets, percentage: calcPercent(statsData.closed_tickets, statsData.all_tickets) },
-    { label: "In Progress tickets", value: statsData.in_processing_tickets, percentage: calcPercent(statsData.in_processing_tickets, statsData.all_tickets) },
-    { label: "Technicians Count", value: statsData.technicians_count, percentage: 100 },
+    { label: "stats.allTickets", value: statsData.all_tickets, percentage: 100 },
+    { label: "stats.openTickets", value: statsData.opened_tickets, percentage: calcPercent(statsData.opened_tickets, statsData.all_tickets) },
+    { label: "stats.closedTickets", value: statsData.closed_tickets, percentage: calcPercent(statsData.closed_tickets, statsData.all_tickets) },
+    { label: "stats.inProgressTickets", value: statsData.in_processing_tickets, percentage: calcPercent(statsData.in_processing_tickets, statsData.all_tickets) },
+    { label: "stats.techniciansCount", value: statsData.technicians_count, percentage: 100 },
   ];
 
   return (

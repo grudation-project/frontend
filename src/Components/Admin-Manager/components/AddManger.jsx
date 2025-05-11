@@ -1,5 +1,10 @@
 /* eslint-disable react/prop-types */
+import { useGetServicesQuery } from "../../../redux/feature/selectMenu/select.apislice";
+
 const AddManagerModal = ({ show, onClose, managerData, setManagerData, onAdd }) => {
+    const { data: servicesData } = useGetServicesQuery();
+    const services = servicesData?.data || [];
+
     if (!show) return null;
 
     const handleUserChange = (e) => {
@@ -39,20 +44,26 @@ const AddManagerModal = ({ show, onClose, managerData, setManagerData, onAdd }) 
                     </svg>
                 </button>
 
-                {/* Modal Content */}
+                {/* Modal Title */}
                 <h2 className="text-2xl font-bold mb-6 text-gray-800">Add New Manager</h2>
 
-                {/* Service ID */}
-                <input
-                    type="text"
-                    name="service_id"
-                    placeholder="Service ID"
-                    value={managerData.service_id}
-                    onChange={handleServiceIdChange}
-                    className="border border-gray-300 p-3 rounded-lg w-full mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
+                {/* Service Selection Dropdown */}
+                <div className="mb-4">
+                    <select
+                        value={managerData.service_id || ''}
+                        onChange={handleServiceIdChange}
+                        className="p-3 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                        <option value="">Select a Service</option>
+                        {services.map((service) => (
+                            <option key={service.id} value={service.id}>
+                                {service.name}
+                            </option>
+                        ))}
+                    </select>
+                </div>
 
-                {/* Manager Info */}
+                {/* Manager Info Inputs */}
                 <input
                     type="text"
                     name="name"
@@ -71,7 +82,6 @@ const AddManagerModal = ({ show, onClose, managerData, setManagerData, onAdd }) 
                     className="border border-gray-300 p-3 rounded-lg w-full mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
 
-                {/* Passwords (optional editable) */}
                 <input
                     type="password"
                     name="password"
@@ -90,6 +100,7 @@ const AddManagerModal = ({ show, onClose, managerData, setManagerData, onAdd }) 
                     className="border border-gray-300 p-3 rounded-lg w-full mb-6 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
 
+                {/* Actions */}
                 <div className="flex justify-end gap-2">
                     <button
                         onClick={onClose}

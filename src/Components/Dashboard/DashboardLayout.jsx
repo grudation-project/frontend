@@ -9,7 +9,6 @@ const DashboardLayout = ({
     stats,
     annualTickets,
     recentTickets,
-    showViewAll = true,
 }) => {
     return (
         <div className="p-6">
@@ -23,19 +22,10 @@ const DashboardLayout = ({
                 <DailyRespondChart />
                 <AnnualTicketsChart data={annualTickets} />
             </div>
-
             {/* Recent Tickets */}
-            <div className="bg-white mt-6">
-                <div className="flex justify-between items-center mb-4">
-                    <h2 className="text-2xl font-bold text-gray-800">Recent Tickets</h2>
-                    {showViewAll && (
-                        <a href="/tickets" className="text-blue-500 text-sm font-medium hover:underline">
-                            View All
-                        </a>
-                    )}
-                </div>
+            <div className="mt-6">
+                <RecentTicketsTable recent_tickets={recentTickets} />
             </div>
-            <RecentTicketsTable recent_tickets={recentTickets} />
         </div>
     );
 };

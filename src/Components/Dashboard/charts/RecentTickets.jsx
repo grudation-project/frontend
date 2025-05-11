@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import { useTranslation } from "react-i18next";
 const statusMap = {
     0: { label: "Open", color: "bg-yellow-100 text-yellow-800" },
     1: { label: "In Progress", color: "bg-blue-100 text-blue-800" },
@@ -14,6 +15,7 @@ const formatDate = (dateStr) => {
 };
 
 const RecentTicketsTable = ({ recent_tickets }) => {
+    const { t } = useTranslation();
     if (!Array.isArray(recent_tickets)) return null;
 
     const sortedTickets = [...recent_tickets].sort(
@@ -29,18 +31,23 @@ const RecentTicketsTable = ({ recent_tickets }) => {
                 boxShadow: "0px 4px 10px rgba(13, 27, 68, 0.2)",
             }}
         >
+            <div className="bg-white ">
+                <div className="flex justify-between items-center mb-4">
+                    <h3 className="text-gray-700 font-medium text-sm md:text-lg">{t("stats.recentTickets")}</h3>
+                </div>
+            </div>
             <div className="overflow-x-auto">
                 <table className="w-full border-collapse">
                     <thead>
                         <tr className="text-gray-600 text-left text-sm md:text-md font-semibold border-b border-gray-300">
-                            <th className="py-3 px-4">ID</th>
-                            <th className="py-3 px-4">Title</th>
-                            <th className="py-3 px-4">Service</th>
-                            <th className="py-3 px-4">Manager</th>
-                            <th className="py-3 px-4">User</th>
-                            <th className="py-3 px-4">Technician</th>
-                            <th className="py-3 px-4">Status</th>
-                            <th className="py-3 px-4">Date</th>
+                            <th className="py-3 px-4">{t("table.id")}</th>
+                            <th className="py-3 px-4">{t("table.title")}</th>
+                            <th className="py-3 px-4">{t("table.service")}</th>
+                            <th className="py-3 px-4">{t("table.manager")}</th>
+                            <th className="py-3 px-4">{t("table.user")}</th>
+                            <th className="py-3 px-4">{t("table.technician")}</th>
+                            <th className="py-3 px-4">{t("table.status")}</th>
+                            <th className="py-3 px-4">{t("table.date")}</th>
                         </tr>
                     </thead>
                     <tbody>

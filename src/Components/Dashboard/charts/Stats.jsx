@@ -1,10 +1,12 @@
 /* eslint-disable react/prop-types */
 import { PieChart, Pie, Cell } from "recharts";
 import getIconByLabel from "./stats-icons";
+import { useTranslation } from "react-i18next";
 
 const COLORS = ["#0D1B44", "#E5E7EB"];
 
 const StatsCards = ({ stats }) => {
+    const { t } = useTranslation();
     return (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 w-full">
             {stats.map((stat, index) => (
@@ -20,7 +22,7 @@ const StatsCards = ({ stats }) => {
                     {/* Left: Label & Value */}
                     <div className="flex flex-col items-center sm:items-start text-center sm:text-left space-y-1 w-full">
                         <div className="flex items-center justify-center sm:justify-start gap-1 sm:gap-2 text-sm sm:text-base text-gray-600 font-medium flex-wrap">
-                            {stat.label}
+                            {t(stat.label)}
                             <span className="text-lg">{getIconByLabel(stat.label)}</span>
                         </div>
                         <p className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 break-words">

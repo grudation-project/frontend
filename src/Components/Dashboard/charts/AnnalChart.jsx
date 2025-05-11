@@ -1,8 +1,9 @@
 /* eslint-disable react/prop-types */
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Area } from "recharts";
+import { useTranslation } from "react-i18next";
 
-
-const AnnualTicketsChart = ({data}) => {
+const AnnualTicketsChart = ({ data }) => {
+    const { t } = useTranslation()
     return (
         <div
             className="bg-white p-4 md:p-6 rounded-xl shadow-lg flex flex-col"
@@ -13,7 +14,7 @@ const AnnualTicketsChart = ({data}) => {
             }}
         >
             {/* Title */}
-            <h3 className="text-gray-700 font-medium text-sm md:text-lg mb-2">Annual Tickets Average</h3>
+            <h3 className="text-gray-700 font-medium text-sm md:text-lg mb-2">{t("stats.annualTickets")}</h3>
 
             {/* Chart */}
             <ResponsiveContainer width="100%" height={220}>

@@ -5,9 +5,11 @@ import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import Logo from "../../images/logo bg-black.png";
 import { menuConfig } from "./menuConfig";
 import getUserRole from "../../context/userType";
+import { useTranslation } from "react-i18next";
 
 export default function Sidebar({ activePage, setActivePage }) {
     const { user } = useUser();
+    const { t } = useTranslation();
     const navigate = useNavigate();
 
     const handleSignOut = () => {
@@ -38,7 +40,7 @@ export default function Sidebar({ activePage, setActivePage }) {
                                             ${activePage === item.id ? "bg-[#051754] text-white" : "hover:bg-[#051754]"}`}
                                     >
                                         <div className="flex justify-center w-6">{item.icon}</div>
-                                        <span className="ms-3 hidden md:inline">{item.label}</span>
+                                        <span className="ms-3 hidden md:inline">{t(item.labelKey)}</span>
                                     </button>
                                 </li>
                             ))}
@@ -52,7 +54,7 @@ export default function Sidebar({ activePage, setActivePage }) {
                             className="flex items-center p-2 rounded-lg text-red-600 transition hover:bg-[#051754] hover:text-white"
                         >
                             <div className="flex justify-center w-6"><ExitToAppIcon /></div>
-                            <span className="ms-3 hidden md:inline">Sign out</span>
+                            <span className="ms-3 hidden md:inline">{t("logout")}</span>
                         </button>
                     </div>
                 </div>
