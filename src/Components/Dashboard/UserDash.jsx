@@ -1,48 +1,24 @@
 import { useGetUserStatisticsQuery } from "../../redux/feature/statistics/stat.apiSlice";
-import StatsCards from "./charts/Stats";
+import DashboardLayout from "./DashboardLayout";
 import { calcPercent } from "./helper";
-// import DailyRespondChart from "./charts/DailyChart";
-import AnnualTicketsChart from "./charts/AnnalChart";
-import RecentTicketsTable from "./charts/RecentTickets";
 
 const UserDash = () => {
   const { data } = useGetUserStatisticsQuery();
-  const statistics = data?.data || [];
-  console.log(statistics);
-  const ticketsCount = statistics.all_tickets;
-  const openTicketsCount = statistics.opened_tickets;
-  const closedTicketsCount = statistics.closed_tickets;
-  const inProgressTicketsCount = statistics.in_processing_tickets;
-  const Annual_tickets = statistics.annual_tickets_average;
+  const statistics = data?.data || {};
+
   const stats = [
-    { label: "All tickets", value: ticketsCount, percentage: 100 },
-    { label: "Open tickets", value: openTicketsCount, percentage: calcPercent(openTicketsCount, ticketsCount) },
-    { label: "Closed tickets", value: closedTicketsCount, percentage: calcPercent(closedTicketsCount, ticketsCount) },
-    { label: "In Progress tickets", value: inProgressTicketsCount, percentage: calcPercent(inProgressTicketsCount, ticketsCount) },
+    { label: "All tickets", value: statistics.all_tickets, percentage: 100 },
+    { label: "Open tickets", value: statistics.opened_tickets, percentage: calcPercent(statistics.opened_tickets, statistics.all_tickets) },
+    { label: "Closed tickets", value: statistics.closed_tickets, percentage: calcPercent(statistics.closed_tickets, statistics.all_tickets) },
+    { label: "In Progress tickets", value: statistics.in_processing_tickets, percentage: calcPercent(statistics.in_processing_tickets, statistics.all_tickets) },
   ];
 
   return (
-    <div className="p-6">
-      <h2 className="text-3xl font-bold text-gray-800 mb-6">Dashboard</h2>
-
-      {/* Stats Cards */}
-      <StatsCards stats={stats} />
-
-      {/* Charts Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
-        {/* <DailyRespondChart /> */}
-        <AnnualTicketsChart data={Annual_tickets} />
-      </div>
-
-      {/* Recent Tickets */}
-      <div className="bg-white  mt-6">
-        <div className="flex justify-between items-center mb-4">
-          <h1 className="text-2xl  font-bold text-gray-800 ">Recent Tickets</h1>
-          <button href="/tickets" className="text-blue-500 text-sm font-medium hover:underline">View All</button>
-        </div>
-      </div>
-      <RecentTicketsTable recent_tickets={statistics.recent_tickets} />
-    </div>
+    <DashboardLayout
+      stats={stats}
+      annualTickets={statistics.annual_tickets_average}
+      recentTickets={statistics.recent_tickets}
+    />
   );
 };
 
