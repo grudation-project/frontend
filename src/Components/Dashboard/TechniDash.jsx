@@ -5,6 +5,7 @@ import { calcPercent } from "./helper";
 const TechniDash = () => {
   const { data } = useGetTechnicianStatisticsQuery();
   const statsData = data?.data || {};
+  console.log(statsData);
 
   const stats = [
     { label: "All tickets", value: statsData.all_tickets, percentage: 100 },

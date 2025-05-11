@@ -6,9 +6,9 @@ import RecentTicketsTable from "./charts/RecentTickets";
 
 const DashboardLayout = ({
     title = "Dashboard",
-    stats ,
-    annualTickets ,
-    recentTickets ,
+    stats,
+    annualTickets,
+    recentTickets,
     showViewAll = true,
 }) => {
     return (
