@@ -3,7 +3,7 @@ import logo from "../../images/logo-bg-white.png";
 
 const RegisterHeader = () => {
   return (
-    <div className="w-full absolute top-0 left-0 py-4 bg-transparent ">
+    <div className="w-full absolute top-0 left-0 py-4 bg-transparent shadow-sm ">
       <div className="container mx-auto flex justify-between items-center px-8">
         <Link to="/">
           <img src={logo} alt="Ticketing System Logo" className="h-10" />
