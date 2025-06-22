@@ -7,9 +7,8 @@ export default function LanguageSelector() {
 
   const languages = [
     { code: "en", label: "English", flag: "https://flagcdn.com/w2560/gb.png" },
-    { code: "ar", label: "Arabic", flag: "https://flagcdn.com/w2560/eg.png" },
-    { code: "fr", label: "French", flag: "https://flagcdn.com/w2560/fr.png" },
-    { code: "po", label: "Portuguese", flag: "https://flagcdn.com/w2560/pt.png" },
+    { code: "ar", label: "العربية", flag: "https://flagcdn.com/w2560/eg.png" },
+
   ];
 
   const handleLanguageChange = (code) => {
@@ -37,7 +36,7 @@ export default function LanguageSelector() {
       </button>
 
       {open && (
-        <div className="absolute right-0 mt-2 w-44 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+        <div className="absolute right-0 mt-2 w-30 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
           {languages.map(({ code, label, flag }) => (
             <button
               key={code}

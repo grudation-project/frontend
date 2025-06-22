@@ -1,4 +1,4 @@
-import { FaTicketAlt, FaTasks, FaCheckCircle, FaSpinner, FaUsers, FaTools } from "react-icons/fa";
+import { FaTicketAlt, FaTasks, FaCheckCircle, FaUsers, FaTools,FaHourglassHalf  } from "react-icons/fa";
 
 const getIconByLabel = (label) => {
     switch (label) {
@@ -9,7 +9,7 @@ const getIconByLabel = (label) => {
         case "stats.closedTickets":
             return <FaCheckCircle size={20} className="text-blue-900" />;
         case "stats.inProgressTickets":
-            return <FaSpinner size={20} className="text-blue-900 animate-spin" />;
+            return <FaHourglassHalf size={20} className="text-blue-900 " />;
         case "stats.managersCount":
         case "stats.techniciansCount":
             return <FaUsers size={20} className="text-blue-900" />;

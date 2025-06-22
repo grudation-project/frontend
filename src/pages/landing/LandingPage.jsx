@@ -1,9 +1,9 @@
 
-import Footer from '../../Components/Footer/Footer';
-import NavbarLanding from '../../Components/Navbar/NavbarLanding';
-import MainSection from '../../Components/LandingPage/MainSection';
-import ServicesSection from '../../Components/LandingPage/ServicesSection';
-import CreateTicketL from '../../Components/LandingPage/CreateTicketL';
+import Footer from '../../layouts/Footer/Footer';
+import NavbarLanding from '../../layouts/Navbar/NavbarLanding';
+import MainSection from '../../layouts/LandingPage/MainSection';
+import ServicesSection from '../../layouts/LandingPage/ServicesSection';
+import CreateTicketL from '../../layouts/LandingPage/CreateTicketL';
 
 export default function LandingPage() {
   return (

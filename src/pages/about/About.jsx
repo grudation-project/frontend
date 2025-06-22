@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import NavbarLanding from "../../Components/Navbar/NavbarLanding";
-import Footer from "../../Components/Footer/Footer";
+import NavbarLanding from "../../layouts/Navbar/NavbarLanding";
+import Footer from "../../layouts/Footer/Footer";
 import { Fragment } from "react";
 
 const AboutPage = () => {

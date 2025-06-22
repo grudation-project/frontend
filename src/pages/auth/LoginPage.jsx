@@ -1,13 +1,14 @@
-import Login from "../../Components/Auth/Login/Login"
-import LoginHeader from "../../Components/Navbar/LoginHeader"
+import Login from "../../modules/Auth/Login/Login";
+import LoginHeader from "../../layouts/Navbar/LoginHeader";
+import { useEffect } from "react";
 
 const LoginPage = () => {
   return (
-    <>
-      <LoginHeader/>
-      <Login/>
-    </>
-  )
-}
+    <div className="flex flex-col h-screen">
+      <LoginHeader />
+      <Login />
+    </div>
+  );
+};
 
-export default LoginPage
+export default LoginPage;

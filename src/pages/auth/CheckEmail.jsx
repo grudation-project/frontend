@@ -1,4 +1,4 @@
-import LoginHeader from "../../Components/Navbar/LoginHeader";
+import LoginHeader from "../../layouts/Navbar/LoginHeader";
 
 const CheckEmail = () => {
     return (

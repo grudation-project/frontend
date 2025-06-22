@@ -1,27 +1,32 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useUser } from "../../context/userContext";
-import Sidebar from "../../Components/SideBar/SideBar";
-import Navbar from "../../Components/Navbar/NavbarDash";
+import Sidebar from "../../layouts/SideBar/SideBar";
+import Navbar from "../../layouts/Navbar/NavbarDash";
 import { dashboardContent } from "./DashContent";
 import getUserRole from "../../context/userType";
 import { useGetProfileQuery } from "../../redux/feature/auth/authApiSlice";
 import LoadingSpinner from "../../common/Loadingspinner";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function Home() {
   const { user } = useUser();
   const { data: response, refetch, isFetching } = useGetProfileQuery();
   const profile = response?.data;
 
-  const [activePage, setActivePage] = useState(() => {
-    return localStorage.getItem("activePage") || "dashboard";
-  });
+  const isRTL = document.documentElement.dir === "rtl";
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
-  // Save active page in localStorage when it changes
+  const { page = "dashboard" } = useParams(); 
+  const navigate = useNavigate();
+
   useEffect(() => {
-    localStorage.setItem("activePage", activePage);
-  }, [activePage]);
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
-  // Refetch profile when user changes (e.g., after login)
   useEffect(() => {
     if (user) {
       refetch();
@@ -30,14 +35,47 @@ export default function Home() {
 
   if (!user || isFetching) return <LoadingSpinner />;
 
+  const role = getUserRole(user.type);
+  const pageComponent = dashboardContent[role]?.[page] || <p>Unauthorized</p>;
+
+  const handlePageChange = (newPage) => {
+    navigate(`/dashboard/${newPage}`);
+  };
+
   return (
-    <div className="flex">
-      <Sidebar activePage={activePage} setActivePage={setActivePage} />
-      <main className="sm:ml-64 w-full responsive-fill">
-        <Navbar UserName={profile?.name} Image={profile?.avatar} setActivePage={setActivePage} />
-        <div className="p-8 mt-14 ">
-          {dashboardContent[getUserRole(user.type)]?.[activePage] || <p>Unauthorized</p>}
-        </div>
+    <div className={`flex ${isRTL ? "flex-row-reverse" : ""}`} dir={isRTL ? "rtl" : "ltr"}>
+      <Sidebar
+        activePage={page}
+        setActivePage={handlePageChange}
+        isCollapsed={isCollapsed}
+        setIsCollapsed={setIsCollapsed}
+        isMobileOpen={isMobileOpen}
+        setIsMobileOpen={setIsMobileOpen}
+      />
+
+      <main
+        className={`transition-all duration-300 w-full ${
+          windowWidth > 700
+            ? isCollapsed
+              ? isRTL
+                ? "pr-20"
+                : "pl-20"
+              : isRTL
+              ? "pr-64"
+              : "pl-64"
+            : ""
+        }`}
+      >
+        <Navbar
+          UserName={profile?.name}
+          Image={profile?.avatar}
+          setActivePage={handlePageChange}
+          isCollapsed={isCollapsed}
+          isMobile={windowWidth <= 700}
+          isMobileOpen={windowWidth <= 700 && isMobileOpen}
+        />
+
+        <div className="py-8 mt-14">{pageComponent}</div>
       </main>
     </div>
   );
